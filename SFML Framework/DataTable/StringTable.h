@@ -6,11 +6,8 @@ public:
 	static std::wstring Undefined;
 
 protected:
-	// <T1, T2>
-	//	T1: 스트링 아이디
-	//	T2: 언어별 스트링 ([0] 한국어 [1] 영어 ...)
 	std::unordered_map<std::string, std::vector<std::wstring>> table;
-	std::string filePath = "tables/string_table.csv";
+	std::string filePath = "tables/store.csv";
 	
 public:
 	StringTable() : DataTable(DataTable::Types::String) { };

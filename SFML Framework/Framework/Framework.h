@@ -39,6 +39,7 @@ public:
 		auto size = GetWindowSizeF();
 		return sf::FloatRect(0.f, 0.f, size.x, size.y);
 	}
+	sf::Vector2f GetWindowCenterPos() const { return {GetWindowSizeF().x / 2, GetWindowSizeF().y / 2 };}
 
 	virtual void Init(int width, int height, const std::string& name);
 	virtual void Do();

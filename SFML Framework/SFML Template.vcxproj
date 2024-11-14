@@ -150,6 +150,7 @@
     <ClCompile Include="Animation\Animator.cpp" />
     <ClCompile Include="DataTable\DataTable.cpp" />
     <ClCompile Include="DataTable\DataTableMgr.cpp" />
+    <ClCompile Include="DataTable\StoreTable.cpp" />
     <ClCompile Include="DataTable\StringTable.cpp" />
     <ClCompile Include="Environment\DebugBox.cpp" />
     <ClCompile Include="Environment\HitBox.cpp" />
@@ -168,6 +169,8 @@
     <ClCompile Include="Object\TextGo.cpp" />
     <ClCompile Include="Object\TileMap.cpp" />
     <ClCompile Include="Object\UiHud.cpp" />
+    <ClCompile Include="Object\PlayArea.cpp" />
+    <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
   </ItemGroup>
@@ -176,6 +179,7 @@
     <ClInclude Include="Animation\Animator.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="DataTable\DataTableMgr.h" />
+    <ClInclude Include="DataTable\StoreTable.h" />
     <ClInclude Include="DataTable\StringTable.h" />
     <ClInclude Include="Environment\DebugBox.h" />
     <ClInclude Include="Environment\Defines.h" />
@@ -196,6 +200,8 @@
     <ClInclude Include="Object\TextGo.h" />
     <ClInclude Include="Object\TileMap.h" />
     <ClInclude Include="Object\UiHud.h" />
+    <ClInclude Include="Object\PlayArea.h" />
+    <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
   </ItemGroup>

@@ -5,7 +5,7 @@ public:
 	enum class Types
 	{
 		String,
-		Zombie,
+		Store,
 	};
 	static const int TotalTypes = 2;
 

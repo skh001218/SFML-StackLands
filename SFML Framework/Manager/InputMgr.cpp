@@ -5,7 +5,9 @@ std::list<int> InputMgr::downKeys;
 std::list<int> InputMgr::heldKeys;
 std::list<int> InputMgr::upKeys;
 sf::Vector2i InputMgr::mousePosition;
+sf::Vector2i InputMgr::mousePositionBefore;
 std::unordered_map<Axis, AxisInfo> InputMgr::axisInfoMap;
+int InputMgr::wheelTick;
 
 void InputMgr::Init()
 {
@@ -28,6 +30,8 @@ void InputMgr::Clear()
 {
 	upKeys.clear();
 	downKeys.clear();
+	wheelTick = 0;
+	mousePositionBefore = mousePosition;
 }
 
 bool InputMgr::Contains(const std::list<int>& list, int code)
@@ -79,33 +83,36 @@ void InputMgr::UpdateEvent(const sf::Event& ev)
 		}
 		break;
 	case sf::Event::MouseMoved:
+		mousePositionBefore = mousePosition;
 		mousePosition.x = ev.mouseMove.x;
 		mousePosition.y = ev.mouseMove.y;
 		break;
+	case sf::Event::MouseWheelMoved:
+		wheelTick = ev.mouseWheel.delta;
 	}
 }
 
 void InputMgr::Update(float dt)
 {
-	 for (auto& pair : axisInfoMap)
-    {
-        auto& axisInfo = pair.second;
-        float raw = GetAxisRaw(axisInfo.axis);
-        float dir = raw;
-        if (dir == 0.f && axisInfo.value != 0.f)
-        {
-            dir = axisInfo.value > 0.f ? -1.f : 1.f;
-        }
+	for (auto& pair : axisInfoMap)
+	{
+		auto& axisInfo = pair.second;
+		float raw = GetAxisRaw(axisInfo.axis);
+		float dir = raw;
+		if (dir == 0.f && axisInfo.value != 0.f)
+		{
+			dir = axisInfo.value > 0.f ? -1.f : 1.f;
+		}
 
-        axisInfo.value += dir * axisInfo.sensi * dt;
-        axisInfo.value = Utils::Clamp(axisInfo.value, -1.f, 1.f);
+		axisInfo.value += dir * axisInfo.sensi * dt;
+		axisInfo.value = Utils::Clamp(axisInfo.value, -1.f, 1.f);
         
-        float stopThreshold = std::abs(dir * axisInfo.sensi * dt);
-        if (raw == 0.f && std::abs(axisInfo.value) < stopThreshold)
-        {
-            axisInfo.value = 0.f;
-        }
-    }
+		float stopThreshold = std::abs(dir * axisInfo.sensi * dt);
+		if (raw == 0.f && std::abs(axisInfo.value) < stopThreshold)
+		{
+			axisInfo.value = 0.f;
+		}
+	}
 }
 
 bool InputMgr::GetKeyDown(sf::Keyboard::Key key)
@@ -137,6 +144,11 @@ bool InputMgr::GetMouseButton(sf::Mouse::Button button)
 bool InputMgr::GetMouseButtonUp(sf::Mouse::Button button)
 {
 	return Contains(upKeys, sf::Keyboard::KeyCount + button);
+}
+
+int InputMgr::GetMouseWheelScrolled()
+{
+	return wheelTick;
 }
 
 float InputMgr::GetAxisRaw(Axis axis)

@@ -9,6 +9,7 @@ TitleScene::TitleScene() : Scene(SceneIds::Title)
 void TitleScene::Init()
 {
 	Scene::Init();
+	
 }
 
 void TitleScene::Enter()
@@ -32,4 +33,5 @@ void TitleScene::Update(float dt)
 void TitleScene::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+	window.draw(rect);
 }

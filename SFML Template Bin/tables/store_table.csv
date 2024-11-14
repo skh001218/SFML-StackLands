@@ -1,0 +1,10 @@
+ID,STRING_FIND,STRING_NONE,TEXTURE,POS_X,POS_Y,STRING_POS_X,STRING_POS_Y,ORIGIN,Font
+Buy0,sell,판매,graphics/playArea/sellArea.png,420,180,420,230,7,fonts/NotoSansKR-Medium.otf
+Buy1,소박한 출발,???,graphics/playArea/sellArea.png,555,180,555,180,7,fonts/NotoSansKR-Medium.otf
+Buy2,지혜가 필요해,???,graphics/playArea/sellArea.png,690,180,690,180,7,fonts/NotoSansKR-Medium.otf
+Buy3,수확하고 심기,???,graphics/playArea/sellArea.png,825,180,825,180,7,fonts/NotoSansKR-Medium.otf
+Buy4,궁금한 요리법,???,graphics/playArea/sellArea.png,960,180,960,180,7,fonts/NotoSansKR-Medium.otf
+Buy5,논리와 사유,???,graphics/playArea/sellArea.png,1095,180,1095,180,7,fonts/NotoSansKR-Medium.otf
+Buy6,무기고,???,graphics/playArea/sellArea.png,1230,180,1230,180,7,fonts/NotoSansKR-Medium.otf
+Buy7,탐험가,???,graphics/playArea/sellArea.png,1365,180,1365,180,7,fonts/NotoSansKR-Medium.otf
+Buy8,질서와 건축물,???,graphics/playArea/sellArea.png,1500,180,1500,180,7,fonts/NotoSansKR-Medium.otf

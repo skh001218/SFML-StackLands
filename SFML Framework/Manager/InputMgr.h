@@ -33,9 +33,10 @@ private:
 	static std::list<int> upKeys;
 
 	static sf::Vector2i mousePosition;
+	static sf::Vector2i mousePositionBefore;
 
 	static std::unordered_map<Axis, AxisInfo> axisInfoMap;
-
+	static int wheelTick;
 public:
 	static void Init();
 	static void Clear();
@@ -51,7 +52,10 @@ public:
 	static bool GetMouseButton(sf::Mouse::Button button);
 	static bool GetMouseButtonUp(sf::Mouse::Button button);
 
+	static int GetMouseWheelScrolled();
+
 	static sf::Vector2i GetMousePosition() { return mousePosition; }
+	static sf::Vector2i GetMousePositionB() { return mousePositionBefore; }
 
 	static float GetAxisRaw(Axis axis);	// -1.0 0 1.0
 	static float GetAxis(Axis axis);	// -1.0 ~ 1.0
@@ -59,5 +63,6 @@ public:
 private:
 	static bool Contains(const std::list<int>& list, int code);
 	static void Remove(std::list<int>& list, int code);
+	
 };
 

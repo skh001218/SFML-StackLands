@@ -22,6 +22,7 @@
 #include "Singleton.h"
 #include "DataTable.h"
 #include "StringTable.h"
+#include "StoreTable.h"
 #include "DataTableMgr.h"
 #include "Framework.h"
 #include "InputMgr.h"

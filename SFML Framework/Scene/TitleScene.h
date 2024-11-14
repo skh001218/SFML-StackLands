@@ -4,7 +4,7 @@
 class TitleScene : public Scene
 {
 protected:
-	
+	sf::RectangleShape rect;
 public:
 	TitleScene();
 	~TitleScene() = default;

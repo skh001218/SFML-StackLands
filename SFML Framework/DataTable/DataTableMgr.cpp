@@ -10,7 +10,8 @@ void DataTableMgr::Init()
 {
 	Release();
 
-	tables.insert({ DataTable::Types::String, new StringTable() });
+	//tables.insert({ DataTable::Types::String, new StringTable() });
+	tables.insert({ DataTable::Types::Store, new StoreTable() });
 
 	for (auto t : tables)
 	{
