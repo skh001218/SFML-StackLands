@@ -1,4 +1,5 @@
 #pragma once
+#include "Store.h"
 
 class PlayArea : public GameObject
 {
@@ -6,11 +7,10 @@ protected:
 	sf::Sprite body;
 	std::string bodyTexture = "graphics/playArea/board.png";
 
-	std::vector<sf::Sprite> stores;
-	std::string storesTexture = "graphics/playArea/sellArea.png";
+	Store* store;
 
-	std::vector<sf::Text> texts;
-
+	std::list<Card*> cards;
+	ObjectPool<Card> cardPool;
 public:
 	PlayArea(const std::string& name = "");
 	~PlayArea() = default;
@@ -26,9 +26,10 @@ public:
 	void Release() override;
 	void Reset() override;
 	void Update(float dt) override;
+	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void SettingStoreArea();
+	void CreateCard();
 };
 
 

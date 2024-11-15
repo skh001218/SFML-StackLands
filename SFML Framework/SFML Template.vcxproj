@@ -148,6 +148,8 @@
   <ItemGroup>
     <ClCompile Include="Animation\AnimationClip.cpp" />
     <ClCompile Include="Animation\Animator.cpp" />
+    <ClCompile Include="DataTable\VillagersTable.cpp" />
+    <ClCompile Include="Object\Card.cpp" />
     <ClCompile Include="DataTable\DataTable.cpp" />
     <ClCompile Include="DataTable\DataTableMgr.cpp" />
     <ClCompile Include="DataTable\StoreTable.cpp" />
@@ -164,8 +166,10 @@
     <ClCompile Include="Manager\InputMgr.cpp" />
     <ClCompile Include="Manager\SceneMgr.cpp" />
     <ClCompile Include="Manager\SoundMgr.cpp" />
+    <ClCompile Include="Object\Cards\Villagers.cpp" />
     <ClCompile Include="Object\GameObject.cpp" />
     <ClCompile Include="Object\SpriteGo.cpp" />
+    <ClCompile Include="Object\Store.cpp" />
     <ClCompile Include="Object\TextGo.cpp" />
     <ClCompile Include="Object\TileMap.cpp" />
     <ClCompile Include="Object\UiHud.cpp" />
@@ -177,6 +181,8 @@
   <ItemGroup>
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="Animation\Animator.h" />
+    <ClInclude Include="DataTable\VillagersTable.h" />
+    <ClInclude Include="Object\Card.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="DataTable\DataTableMgr.h" />
     <ClInclude Include="DataTable\StoreTable.h" />
@@ -194,9 +200,11 @@
     <ClInclude Include="Manager\SceneMgr.h" />
     <ClInclude Include="Manager\Singleton.h" />
     <ClInclude Include="Manager\SoundMgr.h" />
+    <ClInclude Include="Object\Cards\Villagers.h" />
     <ClInclude Include="Object\GameObject.h" />
     <ClInclude Include="Object\ObjectPool.h" />
     <ClInclude Include="Object\SpriteGo.h" />
+    <ClInclude Include="Object\Store.h" />
     <ClInclude Include="Object\TextGo.h" />
     <ClInclude Include="Object\TileMap.h" />
     <ClInclude Include="Object\UiHud.h" />

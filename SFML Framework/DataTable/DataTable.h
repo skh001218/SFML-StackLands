@@ -6,8 +6,9 @@ public:
 	{
 		String,
 		Store,
+		Villagers,
 	};
-	static const int TotalTypes = 2;
+	static const int TotalTypes = 3;
 
 protected:
 	Types type;

@@ -4,13 +4,13 @@
 HitBox::HitBox()
 {
 	rect.setFillColor(sf::Color::Transparent);
-	rect.setOutlineColor(sf::Color::Green);
-	rect.setOutlineThickness(1.f);
+	rect.setOutlineColor(sf::Color::Red);
+	rect.setOutlineThickness(10.f);
 }
 
 void HitBox::UpdateTr(const sf::Transformable& tr, const sf::FloatRect& localBounds)
 {
-	rect.setOutlineColor(sf::Color::Green);
+	rect.setOutlineColor(sf::Color::Red);
 	rect.setSize({ localBounds.width, localBounds.height });
 	rect.setOrigin(tr.getOrigin());
 	rect.setPosition(tr.getPosition());

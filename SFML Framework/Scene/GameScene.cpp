@@ -1,15 +1,17 @@
 #include "stdafx.h"
 #include "GameScene.h"
 #include "PlayArea.h"
+#include "Card.h"
 
 GameScene::GameScene() : Scene(SceneIds::Title)
 {
-
+	
 }
 
 void GameScene::Init()
 {
 	AddGo(new PlayArea());
+	card = AddGo(new Card("Card"));
 	Scene::Init();
 }
 
@@ -37,16 +39,31 @@ void GameScene::Exit()
 
 void GameScene::Update(float dt)
 {
+	Scene::Update(dt);
+}
+
+void GameScene::FixedUpdate(float dt)
+{
+	sf::Vector2f mouse = ScreenToWorld(InputMgr::GetMousePosition());
+	selectCard = card->GetSelectCard();
 	CloseUpDown(dt);
 	MoveScreen(dt);
-	Scene::Update(dt);
+	MoveCard(card);
+
+	Scene::FixedUpdate(dt);
 }
 
 void GameScene::Draw(sf::RenderWindow& window)
 {
+	
+
+	const sf::View& saveView = window.getView();
 	window.setView(worldView);
 	window.draw(background);
+	window.setView(saveView);
+
 	Scene::Draw(window);
+	
 }
 
 void GameScene::CloseUpDown(float dt)
@@ -68,11 +85,19 @@ void GameScene::CloseUpDown(float dt)
 
 void GameScene::MoveScreen(float dt)
 {
-	if (InputMgr::GetMouseButton(sf::Mouse::Left))
+	if (!selectCard && InputMgr::GetMouseButton(sf::Mouse::Left) )
 	{
-		sf::Vector2f mPos = (sf::Vector2f)(InputMgr::GetMousePositionB() - InputMgr::GetMousePosition());
+		sf::Vector2f mPos = ScreenToWorld(InputMgr::GetMousePositionB()) - ScreenToWorld(InputMgr::GetMousePosition());
 		worldView.setCenter(worldView.getCenter().x + mPos.x, worldView.getCenter().y + mPos.y);
-		std::cout << mPos.x << " , " << mPos.y << std::endl;
 	}
 		
+}
+
+void GameScene::MoveCard(Card* card)
+{
+	if (InputMgr::GetMouseButton(sf::Mouse::Left) && selectCard)
+	{
+		sf::Vector2f mPos = ScreenToWorld(InputMgr::GetMousePositionB()) - ScreenToWorld(InputMgr::GetMousePosition());
+		card->SetPosition(card->GetPosition() - mPos);
+	}
 }

@@ -1,5 +1,7 @@
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Animation\AnimationClip.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\AnimationClip.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Animation\Animator.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\Animator.obj
+C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\DataTable\VillagersTable.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\VillagersTable.obj
+C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Object\Card.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\Card.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\DataTable\DataTable.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\DataTable.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\DataTable\DataTableMgr.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\DataTableMgr.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\DataTable\StoreTable.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\StoreTable.obj
@@ -14,8 +16,10 @@ C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Framework\stdafx.cpp;C:
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Manager\InputMgr.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\InputMgr.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Manager\SceneMgr.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\SceneMgr.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Manager\SoundMgr.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\SoundMgr.obj
+C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Object\Cards\Villagers.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\Villagers.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Object\GameObject.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\GameObject.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Object\SpriteGo.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\SpriteGo.obj
+C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Object\Store.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\Store.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Object\TextGo.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\TextGo.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Object\TileMap.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\TileMap.obj
 C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\Object\UiHud.cpp;C:\Users\KGA\source\repos\SFML StackLands\SFML Framework\SFML Template\x64\Debug\UiHud.obj
