@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Card.h"
+#include "GameScene.h"
 
 Card::Card(const std::string& name)
 	: GameObject(name)
@@ -13,9 +14,9 @@ void Card::SetPosition(const sf::Vector2f& pos)
 	position = pos;
 	body.setPosition(position);
 	icon.setPosition(position);
-	cardName.setPosition(body.getGlobalBounds().left + body.getGlobalBounds().width - 12.f,
+	hpStr.setPosition(body.getGlobalBounds().left + body.getGlobalBounds().width - 12.f,
 		body.getGlobalBounds().top + body.getGlobalBounds().height - 14.f);
-	//cardName.setPosition(body.getGlobalBounds().left + 5.f, body.getGlobalBounds().top + 3.f);
+	cardName.setPosition(body.getGlobalBounds().left + 5.f, body.getGlobalBounds().top + 3.f);
 	hpSprite.setPosition(body.getGlobalBounds().left + body.getGlobalBounds().width - 5.f, 
 		body.getGlobalBounds().top + body.getGlobalBounds().height - 3.f);
 }
@@ -58,7 +59,7 @@ void Card::Release()
 
 void Card::Reset()
 {
-	
+	scene = dynamic_cast<GameScene*>(SCENE_MGR.GetCurrentScene());
 	CardSetting();
 	
 }
@@ -71,7 +72,7 @@ void Card::Update(float dt)
 
 void Card::FixedUpdate(float dt)
 {
-
+	Move();
 }
 
 void Card::Draw(sf::RenderWindow& window)
@@ -81,6 +82,7 @@ void Card::Draw(sf::RenderWindow& window)
 	window.draw(icon);
 	window.draw(hpSprite);
 	window.draw(cardName);
+	window.draw(hpStr);
 	hitbox.Draw(window);
 }
 
@@ -105,14 +107,18 @@ void Card::CardSetting()
 	Utils::SetOrigin(icon, Origins::MC);
 	icon.setScale(0.05f, 0.05f);
 
-	cardName.setFont(FONT_MGR.Get("fonts/NotoSansKR-Medium.otf"));
-	//cardName.setString(VILLAGER_TABLE->Get(this->id).name);
-	cardName.setString("15");
+	cardName.setFont(font);
+	cardName.setString(VILLAGER_TABLE->Get(this->id).name);
 	cardName.setCharacterSize(150);
-	//cardName.setScale(0.1f, 0.1f);
-	cardName.setScale(0.07f, 0.07f);
-	cardName.setFillColor(sf::Color::White);
-	Utils::SetOrigin(cardName, Origins::BR);
+	cardName.setScale(0.1f, 0.1f);
+	cardName.setFillColor(sf::Color::Black);
+
+	hpStr.setFont(font);
+	hpStr.setString("15");
+	hpStr.setCharacterSize(150);
+	hpStr.setScale(0.07f, 0.07f);
+	hpStr.setFillColor(sf::Color::White);
+	Utils::SetOrigin(hpStr, Origins::BR);
 
 	hitbox = HitBox();
 
@@ -128,4 +134,14 @@ void Card::CardSetting()
 	Utils::SetOrigin(hpSprite, Origins::BR);
 	
 	SetPosition(FRAMEWORK.GetWindowCenterPos());
+}
+
+void Card::Move()
+{
+	if (InputMgr::GetMouseButton(sf::Mouse::Left) && isSelect)
+	{
+		sf::Vector2f mPos = scene->ScreenToWorld(InputMgr::GetMousePositionB()) -
+			scene->ScreenToWorld(InputMgr::GetMousePosition());
+		SetPosition(position - mPos);
+	}
 }

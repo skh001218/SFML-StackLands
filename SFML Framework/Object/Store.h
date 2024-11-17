@@ -11,7 +11,6 @@ protected:
 
 	std::vector<sf::Text> texts;
 
-	Card* card;
 	bool isCardCollision;
 
 public:
@@ -33,5 +32,5 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void SettingStoreArea();
-	void SellCard();
+	void SellCard(Card* card);
 };

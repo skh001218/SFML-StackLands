@@ -2,6 +2,7 @@
 #include "GameScene.h"
 #include "PlayArea.h"
 #include "Card.h"
+#include "Deck.h"
 
 GameScene::GameScene() : Scene(SceneIds::Title)
 {
@@ -11,7 +12,7 @@ GameScene::GameScene() : Scene(SceneIds::Title)
 void GameScene::Init()
 {
 	AddGo(new PlayArea());
-	card = AddGo(new Card("Card"));
+	deck = AddGo(new Deck());
 	Scene::Init();
 }
 
@@ -34,29 +35,42 @@ void GameScene::Enter()
 
 void GameScene::Exit()
 {
+	for (auto card : cards)
+	{
+		RemoveGo(card);
+		cardPool.Return(card);
+	}
+	cards.clear();
+
 	Scene::Exit();
 }
 
 void GameScene::Update(float dt)
 {
 	Scene::Update(dt);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
+	{
+		CrateCard();
+	}
+	selectDeck = deck->GetSelectDeck();
 }
 
 void GameScene::FixedUpdate(float dt)
 {
-	sf::Vector2f mouse = ScreenToWorld(InputMgr::GetMousePosition());
-	selectCard = card->GetSelectCard();
+	SetSelectCard();
 	CloseUpDown(dt);
 	MoveScreen(dt);
-	MoveCard(card);
+	for (auto& card : cards)
+	{
+		Collision(card, deck, dt);
+	}
 
 	Scene::FixedUpdate(dt);
 }
 
 void GameScene::Draw(sf::RenderWindow& window)
 {
-	
-
 	const sf::View& saveView = window.getView();
 	window.setView(worldView);
 	window.draw(background);
@@ -66,26 +80,39 @@ void GameScene::Draw(sf::RenderWindow& window)
 	
 }
 
+void GameScene::SetSelectCard()
+{
+	for (auto card : cards)
+	{
+		selectCard = card->GetSelectCard();
+		if (selectCard)
+		{
+			this->card = card;
+			break;
+		}
+	}
+}
+
 void GameScene::CloseUpDown(float dt)
 {
 	int temp = InputMgr::GetMouseWheelScrolled();
 	if (temp > 0)
 	{
-		viewPos.x > viewArea.left ? viewPos.x -= viewPos.x * dt * 10.f : viewPos.x;
-		viewPos.y > viewArea.top ? viewPos.y -= viewPos.y * dt * 10.f : viewPos.y;
+		viewPos.x > viewArea.left ? viewPos.x -= viewPos.x * dt * 100.f : viewPos.x;
+		viewPos.y > viewArea.top ? viewPos.y -= viewPos.y * dt * 100.f : viewPos.y;
 		worldView.setSize(viewPos);
 	}
 	else if (temp < 0)
 	{
-		viewPos.x < viewArea.width ? viewPos.x += viewPos.x * dt * 10.f : viewPos.x;
-		viewPos.y < viewArea.height ? viewPos.y += viewPos.y * dt * 10.f : viewPos.y;
+		viewPos.x < viewArea.width ? viewPos.x += viewPos.x * dt * 100.f : viewPos.x;
+		viewPos.y < viewArea.height ? viewPos.y += viewPos.y * dt * 100.f : viewPos.y;
 		worldView.setSize(viewPos);
 	}
 }
 
 void GameScene::MoveScreen(float dt)
 {
-	if (!selectCard && InputMgr::GetMouseButton(sf::Mouse::Left) )
+	if (!selectCard && !selectDeck && InputMgr::GetMouseButton(sf::Mouse::Left) )
 	{
 		sf::Vector2f mPos = ScreenToWorld(InputMgr::GetMousePositionB()) - ScreenToWorld(InputMgr::GetMousePosition());
 		worldView.setCenter(worldView.getCenter().x + mPos.x, worldView.getCenter().y + mPos.y);
@@ -93,11 +120,46 @@ void GameScene::MoveScreen(float dt)
 		
 }
 
-void GameScene::MoveCard(Card* card)
+void GameScene::Collision(Card* card, Deck* deck, float dt)
 {
-	if (InputMgr::GetMouseButton(sf::Mouse::Left) && selectCard)
+	sf::FloatRect cRect = card->GetGlobalBounds();
+	sf::FloatRect dRect = deck->GetGlobalBounds();
+	sf::Vector2f dPos = deck->GetPosition();
+	sf::Vector2f cPos = card->GetPosition();
+	if (Utils::CheckCollision(card->GetCardBody(), deck->GetBody()))
 	{
-		sf::Vector2f mPos = ScreenToWorld(InputMgr::GetMousePositionB()) - ScreenToWorld(InputMgr::GetMousePosition());
-		card->SetPosition(card->GetPosition() - mPos);
+		if (cRect.left > dPos.x)
+		{
+			cPos.x += (dRect.left + dRect.width - cRect.left) * dt * 5.f;
+			card->SetPosition(cPos);
+		}
+		if (cRect.top > dPos.y)
+		{
+			cPos.y += (dRect.top - cRect.height + cRect.top) * dt * 5.f;
+			card->SetPosition(cPos);
+		}
+		if (cRect.left + cRect.width < dPos.x)
+		{
+			cPos.x -= (dRect.left - cRect.left + cRect.width) * dt * 5.f;
+			card->SetPosition(cPos);
+		}
+		if (cRect.top + cRect.height < dPos.y)
+		{
+			cPos.y -= (dRect.top - cRect.top + cRect.height) * dt * 10.f;
+			card->SetPosition(cPos);
+		}
 	}
+}
+
+void GameScene::CrateCard()
+{
+	Card* card = cardPool.Take();
+	cards.push_back(card);
+
+	card->CardSetting();
+
+	sf::Vector2f pos = FRAMEWORK.GetWindowCenterPos();
+	card->SetPosition(pos);
+
+	AddGo(card);
 }

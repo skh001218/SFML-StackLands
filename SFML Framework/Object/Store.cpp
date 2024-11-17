@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Store.h"
 #include "Card.h"
+#include "GameScene.h"
 
 Store::Store(const std::string& name)
 	: GameObject(name)
@@ -60,7 +61,6 @@ void Store::Reset()
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 2;
 	SettingStoreArea();
-	card = dynamic_cast<Card*>(SCENE_MGR.GetCurrentScene()->FindGo("Card"));
 }
 
 void Store::Update(float dt)
@@ -69,7 +69,9 @@ void Store::Update(float dt)
 
 void Store::FixedUpdate(float dt)
 {
-	SellCard();
+	GameScene* scene = dynamic_cast<GameScene*>(SCENE_MGR.GetCurrentScene());
+	if(scene->GetSelectCard() != nullptr)
+		SellCard(scene->GetSelectCard());
 }
 
 void Store::Draw(sf::RenderWindow& window)
@@ -101,7 +103,7 @@ void Store::SettingStoreArea()
 	}
 }
 
-void Store::SellCard()
+void Store::SellCard(Card* card)
 {
 	if (Utils::PointInTransformBounds(stores[0], stores[0].getLocalBounds(), card->GetPosition()))
 	{
@@ -109,5 +111,5 @@ void Store::SellCard()
 		{
 			card->SetActive(false);
 		}
-	}		
+	}
 }

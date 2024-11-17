@@ -167,6 +167,7 @@
     <ClCompile Include="Manager\SceneMgr.cpp" />
     <ClCompile Include="Manager\SoundMgr.cpp" />
     <ClCompile Include="Object\Cards\Villagers.cpp" />
+    <ClCompile Include="Object\Deck.cpp" />
     <ClCompile Include="Object\GameObject.cpp" />
     <ClCompile Include="Object\SpriteGo.cpp" />
     <ClCompile Include="Object\Store.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Manager\Singleton.h" />
     <ClInclude Include="Manager\SoundMgr.h" />
     <ClInclude Include="Object\Cards\Villagers.h" />
+    <ClInclude Include="Object\Deck.h" />
     <ClInclude Include="Object\GameObject.h" />
     <ClInclude Include="Object\ObjectPool.h" />
     <ClInclude Include="Object\SpriteGo.h" />

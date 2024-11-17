@@ -1,5 +1,7 @@
 #pragma once
 
+class GameScene;
+
 class Card : public GameObject
 {
 protected:
@@ -10,7 +12,11 @@ protected:
 	std::string iconTex = "graphics/icon/Villager.png";
 	sf::Text cardName;
 
+	sf::Font font = FONT_MGR.Get("fonts/NotoSansKR-Medium.otf");
+
 	bool isSelect = false;
+
+	GameScene* scene;
 
 
 	//Villager
@@ -23,6 +29,7 @@ protected:
 
 	sf::Sprite hpSprite;
 	std::string hpTex = "";
+	sf::Text hpStr;
 
 public:
 	Card(const std::string& name = "");
@@ -34,6 +41,9 @@ public:
 
 	void SetOrigin(Origins preset) override;
 	void SetOrigin(const sf::Vector2f& newOrigin) override;
+
+	sf::FloatRect GetLocalBounds() const override { return body.getLocalBounds(); };
+	sf::FloatRect GetGlobalBounds() const override { return body.getGlobalBounds(); };
 
 	void Init() override;
 	void Release() override;
@@ -48,5 +58,6 @@ public:
 	sf::Sprite GetCardBody() const { return body; }
 
 	void CardSetting();
+	void Move();
 };
 

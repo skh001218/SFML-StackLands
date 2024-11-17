@@ -57,7 +57,6 @@ void PlayArea::Reset()
 	sortingOrder = 1;
 	body.setTexture(TEXTURE_MGR.Get(bodyTexture));
 	SetPosition(FRAMEWORK.GetWindowCenterPos());
-	//SetScale({ 2.f, 2.f });
 	Utils::SetOrigin(body, Origins::MC);
 	store->Reset();
 }

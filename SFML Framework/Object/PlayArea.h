@@ -9,8 +9,6 @@ protected:
 
 	Store* store;
 
-	std::list<Card*> cards;
-	ObjectPool<Card> cardPool;
 public:
 	PlayArea(const std::string& name = "");
 	~PlayArea() = default;

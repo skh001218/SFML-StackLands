@@ -102,6 +102,9 @@
     <ClCompile Include="DataTable\VillagersTable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Deck.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Framework.h">
@@ -201,6 +204,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DataTable\VillagersTable.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Deck.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
