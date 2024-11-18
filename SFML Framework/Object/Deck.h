@@ -44,4 +44,6 @@ public:
 
 	void ShowCard();
 	void Move();
+
+	void Collision();
 };

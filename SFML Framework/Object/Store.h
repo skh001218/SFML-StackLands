@@ -11,6 +11,11 @@ protected:
 
 	std::vector<sf::Text> texts;
 
+	std::vector<sf::Sprite> coins;
+	std::string coinTex = "graphics/icon/goldicon.png";
+
+	std::vector<sf::Text> prices;
+
 	bool isCardCollision;
 
 public:

@@ -11,6 +11,7 @@ struct DataStore
 	sf::Vector2f posStr;
 	Origins origin;
 	std::string font;
+	int price;
 };
 
 

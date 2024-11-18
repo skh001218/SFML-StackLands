@@ -12,6 +12,7 @@ enum class SortingLayers
 {
 	Background,
 	Foreground,
+	Card,
 	Default,
 	UI,
 };

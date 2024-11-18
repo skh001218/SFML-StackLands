@@ -30,8 +30,6 @@ void Framework::Do()
             if (event.type == sf::Event::Closed)
                 window.close();
             InputMgr::UpdateEvent(event);
-            if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
-                window.close();
         }
         InputMgr::Update(deltaTime);
         

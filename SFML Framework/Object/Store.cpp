@@ -80,6 +80,10 @@ void Store::Draw(sf::RenderWindow& window)
 		window.draw(store);
 	for (auto& text : texts)
 		window.draw(text);
+	for (auto& coin : coins)
+		window.draw(coin);
+	for (auto& price : prices)
+		window.draw(price);
 }
 
 void Store::SettingStoreArea()
@@ -96,11 +100,29 @@ void Store::SettingStoreArea()
 		texts.push_back(sf::Text());
 		texts[i].setFont(FONT_MGR.Get(STORE_TABLE->Get(id).font));
 		texts[i].setCharacterSize(20.f);
-		texts[i].setString(STORE_TABLE->Get(id).stringNone);
+		texts[i].setString(STORE_TABLE->Get(id).stringFind);
 		Utils::SetOrigin(texts[i], STORE_TABLE->Get(id).origin);
 		texts[i].setPosition(STORE_TABLE->Get(id).posStr);
 
+		coins.push_back(sf::Sprite());
+		coins[i].setTexture(TEXTURE_MGR.Get(coinTex));
+		coins[i].setScale({ 0.05f, 0.05f });
+		Utils::SetOrigin(coins[i], Origins::MR);
+		coins[i].setPosition(texts[i].getPosition().x - 5.f, texts[i].getPosition().y + 40.f);
+
+		prices.push_back(sf::Text());
+		prices[i].setFont(FONT_MGR.Get(STORE_TABLE->Get(id).font));
+		prices[i].setCharacterSize(20.f);
+		if (STORE_TABLE->Get(id).price != 0)
+			prices[i].setString(std::to_string(STORE_TABLE->Get(id).price));
+		Utils::SetOrigin(prices[i], Origins::BL);
+		prices[i].setPosition(texts[i].getPosition().x + 5.f, texts[i].getPosition().y + 40.f);
 	}
+	
+	Utils::SetOrigin(coins[0], Origins::MC);
+	coins[0].setScale({0.12, 0.12});
+	coins[0].setPosition(texts[0].getPosition().x, texts[0].getPosition().y - 60.f);
+
 }
 
 void Store::SellCard(Card* card)

@@ -18,6 +18,9 @@ protected:
 
 	GameScene* scene;
 
+	sf::FloatRect movableArea = { 165, 290, 1745, 980 };
+
+	bool isCombine = false;
 
 	//Villager
 	std::string id;
@@ -59,5 +62,8 @@ public:
 
 	void CardSetting();
 	void Move();
+	void MoveInArea();
+
+	void CombineCard();
 };
 

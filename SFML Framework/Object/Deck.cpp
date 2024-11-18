@@ -65,6 +65,7 @@ void Deck::Update(float dt)
 	{
 		ShowCard();
 		deckCount--;
+		count.setString(std::to_string(deckCount));
 		if (deckCount == 0)
 		{
 			SCENE_MGR.GetCurrentScene()->RemoveGo(this);
@@ -109,11 +110,15 @@ void Deck::ShowCard()
 	std::list<Card*>* cards = scene->GetCardList();
 
 	Card* card = cardPool->Take();
+	if (cards->size() == 0)
+		card->sortingOrder = 0;
+	else
+		card->sortingOrder += cards->back()->sortingOrder + 1;
 	cards->push_back(card);
 
 	card->CardSetting();
 
-	sf::Vector2f pos = Utils::RandomInUnitCircle() * 200.f;
+	sf::Vector2f pos = Utils::RandomOnUnitCircle() * 200.f;
 	card->SetPosition(position + pos);
 
 	scene->AddGo(card);
@@ -127,4 +132,9 @@ void Deck::Move()
 			scene->ScreenToWorld(InputMgr::GetMousePosition());
 		SetPosition(position - mPos);
 	}
+}
+
+void Deck::Collision()
+{
+	
 }

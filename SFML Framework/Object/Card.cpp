@@ -5,8 +5,7 @@
 Card::Card(const std::string& name)
 	: GameObject(name)
 {
-	sortingLayer = SortingLayers::Foreground;
-	sortingOrder = 3;
+	sortingLayer = SortingLayers::Card;
 }
 
 void Card::SetPosition(const sf::Vector2f& pos)
@@ -67,12 +66,12 @@ void Card::Reset()
 void Card::Update(float dt)
 {
 	SetSelectCard();
-	hitbox.UpdateTr(body, body.getLocalBounds());
 }
 
 void Card::FixedUpdate(float dt)
 {
 	Move();
+	MoveInArea();
 }
 
 void Card::Draw(sf::RenderWindow& window)
@@ -89,8 +88,14 @@ void Card::Draw(sf::RenderWindow& window)
 void Card::SetSelectCard()
 {
 	sf::Vector2f mousePos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(InputMgr::GetMousePosition());
+	std::list<Card*>* cards = scene->GetCardList();
 	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		cards->sort();
+			
 		isSelect = true;
+	}
+		
 	else if (InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 		isSelect = false;
 }
@@ -119,9 +124,6 @@ void Card::CardSetting()
 	hpStr.setScale(0.07f, 0.07f);
 	hpStr.setFillColor(sf::Color::White);
 	Utils::SetOrigin(hpStr, Origins::BR);
-
-	hitbox = HitBox();
-
 	
 	health = VILLAGER_TABLE->Get(this->id).health;
 	attackSpeed = VILLAGER_TABLE->Get(this->id).attackSpeed;
@@ -143,5 +145,44 @@ void Card::Move()
 		sf::Vector2f mPos = scene->ScreenToWorld(InputMgr::GetMousePositionB()) -
 			scene->ScreenToWorld(InputMgr::GetMousePosition());
 		SetPosition(position - mPos);
+	}
+}
+
+void Card::MoveInArea()
+{
+	if (InputMgr::GetMouseButtonUp(sf::Mouse::Left))
+	{
+		if (GetGlobalBounds().top < movableArea.top)
+		{
+			position.y -= GetGlobalBounds().top - movableArea.top;
+			SetPosition(position);
+		}
+		if (GetGlobalBounds().left < movableArea.left)
+		{
+			position.x -= GetGlobalBounds().left - movableArea.left;
+			SetPosition(position);
+		}
+		if (GetGlobalBounds().top + GetGlobalBounds().height > movableArea.height)
+		{
+			position.y -= GetGlobalBounds().top + GetGlobalBounds().height - movableArea.height;
+			SetPosition(position);
+		}
+		if (GetGlobalBounds().left + GetGlobalBounds().width > movableArea.width)
+		{
+			position.x -= GetGlobalBounds().left + GetGlobalBounds().width - movableArea.width;
+			SetPosition(position);
+		}
+	}
+}
+
+void Card::CombineCard()
+{
+	std::list<Card*>* cards = scene->GetCardList();
+	for (auto& card : *cards)
+	{
+		if (Utils::CheckCollision(body, card->GetCardBody()))
+		{
+			card->GetGlobalBounds().top - 10.f;
+		}
 	}
 }

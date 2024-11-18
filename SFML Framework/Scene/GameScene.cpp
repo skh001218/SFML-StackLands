@@ -4,7 +4,7 @@
 #include "Card.h"
 #include "Deck.h"
 
-GameScene::GameScene() : Scene(SceneIds::Title)
+GameScene::GameScene() : Scene(SceneIds::Game)
 {
 	
 }
@@ -98,14 +98,23 @@ void GameScene::CloseUpDown(float dt)
 	int temp = InputMgr::GetMouseWheelScrolled();
 	if (temp > 0)
 	{
-		viewPos.x > viewArea.left ? viewPos.x -= viewPos.x * dt * 100.f : viewPos.x;
-		viewPos.y > viewArea.top ? viewPos.y -= viewPos.y * dt * 100.f : viewPos.y;
+		viewPos.x > viewArea.left ? viewPos.x -= viewPos.x * dt * 10.f : viewPos.x;
+		viewPos.y > viewArea.top ? viewPos.y -= viewPos.y * dt * 10.f : viewPos.y;
+		if (viewPos.x < 0)
+			viewPos.x = viewArea.left;
+		if (viewPos.y < 0)
+			viewPos.y = viewArea.top;
+		std::cout << viewPos.x << " " << viewPos.y << std::endl;
 		worldView.setSize(viewPos);
 	}
 	else if (temp < 0)
 	{
-		viewPos.x < viewArea.width ? viewPos.x += viewPos.x * dt * 100.f : viewPos.x;
-		viewPos.y < viewArea.height ? viewPos.y += viewPos.y * dt * 100.f : viewPos.y;
+		viewPos.x < viewArea.width ? viewPos.x += viewPos.x * dt * 10.f : viewPos.x;
+		viewPos.y < viewArea.height ? viewPos.y += viewPos.y * dt * 10.f : viewPos.y;
+		if (viewPos.x > viewArea.width)
+			viewPos.x = viewArea.width;
+		if (viewPos.y > viewArea.height)
+			viewPos.y = viewArea.height;
 		worldView.setSize(viewPos);
 	}
 }

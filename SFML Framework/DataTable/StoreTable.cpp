@@ -28,6 +28,7 @@ bool StoreTable::Load()
 		table[id].posStr = { std::stof(row[6]), std::stof(row[7]) };;
 		table[id].origin = (Origins)std::stoi(row[8]);
 		table[id].font = row[9];
+		table[id].price = stoi(row[10]);
 	}
 
 	return true;
