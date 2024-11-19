@@ -23,6 +23,7 @@
 #include "DataTable.h"
 #include "StringTable.h"
 #include "StoreTable.h"
+#include "DeckTable.h"
 #include "VillagersTable.h"
 #include "DataTableMgr.h"
 #include "Framework.h"

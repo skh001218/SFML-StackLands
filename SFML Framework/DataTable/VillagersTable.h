@@ -11,6 +11,8 @@ struct DataVillagers
 	int		foodEat;
 	std::string iconTex;
 	std::wstring name;
+	std::string cardColor;
+	int value;
 };
 
 

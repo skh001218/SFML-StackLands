@@ -1,2 +1,6 @@
-﻿ID,HEALTH,ATTACKSPEED,HITCHANCE,DAMAGE,FOODEAT,ICONTEX,NAME
-Villager,15,2.9,0.68,2,2,graphics/icon/Villager.png,주민
+﻿ID,HEALTH,ATTACKSPEED,HITCHANCE,DAMAGE,FOODEAT,ICONTEX,NAME,CARDCOLOR,VALUE
+Villager,15,2.9,0.68,2,2,graphics/icon/Villager.png,주민,graphics/card/yellowCard.png,-1
+Berry Bush,-1,-1,-1,-1,-1,graphics/icon/Bush.png,딸기나무,graphics/card/blackCard.png,1
+Rock,-1,-1,-1,-1,-1,graphics/icon/Rock.png,바위,graphics/card/blackCard.png,2
+Wood,-1,-1,-1,-1,-1,graphics/icon/Wood.png,나무,graphics/card/silverCard.png,0
+Coin,-1,-1,-1,-1,-1,graphics/icon/Coin.png,코인,graphics/card/yellowCard.png,-1

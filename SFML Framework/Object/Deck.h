@@ -8,10 +8,14 @@ protected:
 	sf::Sprite body;
 	std::string bodyTex = "graphics/deck/aNewWorld.png";
 
+	std::list<std::string> deckList;
+
 	sf::Text count;
 	int deckCount;
+	int deckOrder = 0;
 
 	bool isSelect;
+	sf::FloatRect movableArea = { 165, 290, 1745, 980 };
 
 	GameScene* scene;
 
@@ -38,10 +42,14 @@ public:
 	void SetSelectDeck();
 	bool GetSelectDeck() const { return isSelect; };
 
+	void SetDeckOrder(int order) { deckOrder = order; };
+	int GetDeckOrder() const { return deckOrder; };
+
 	sf::Sprite GetBody() const { return body; }
 
 	void SettingDeck();
 
+	void SetDeckList(int order);
 	void ShowCard();
 	void Move();
 

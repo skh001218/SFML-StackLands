@@ -15,6 +15,9 @@ protected:
 	std::string coinTex = "graphics/icon/goldicon.png";
 
 	std::vector<sf::Text> prices;
+	std::vector<int> price;
+
+	GameScene* scene;
 
 	bool isCardCollision;
 
@@ -38,4 +41,6 @@ public:
 
 	void SettingStoreArea();
 	void SellCard(Card* card);
+
+	void BuyDeck(Card* card);
 };

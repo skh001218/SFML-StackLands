@@ -60,18 +60,31 @@ void Store::Reset()
 {
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 2;
+	scene = dynamic_cast<GameScene*>(SCENE_MGR.GetCurrentScene());
 	SettingStoreArea();
 }
 
 void Store::Update(float dt)
 {
+	for	(int i = 1; i < 9; i++)
+	{
+		if (price[i] == 0)
+		{
+			scene->CreateDeck(i);
+			price[i] = STORE_TABLE->Get("Buy" + std::to_string(i)).price;
+			prices[i].setString(std::to_string(price[i]));
+		}
+	}
 }
 
 void Store::FixedUpdate(float dt)
 {
-	GameScene* scene = dynamic_cast<GameScene*>(SCENE_MGR.GetCurrentScene());
-	if(scene->GetSelectCard() != nullptr)
+	if (scene->GetSelectCard() != nullptr)
+	{
 		SellCard(scene->GetSelectCard());
+		BuyDeck(scene->GetSelectCard());
+	}
+		
 }
 
 void Store::Draw(sf::RenderWindow& window)
@@ -113,8 +126,9 @@ void Store::SettingStoreArea()
 		prices.push_back(sf::Text());
 		prices[i].setFont(FONT_MGR.Get(STORE_TABLE->Get(id).font));
 		prices[i].setCharacterSize(20.f);
-		if (STORE_TABLE->Get(id).price != 0)
+		if (STORE_TABLE->Get(id).price != -1)
 			prices[i].setString(std::to_string(STORE_TABLE->Get(id).price));
+		price.push_back(STORE_TABLE->Get(id).price);
 		Utils::SetOrigin(prices[i], Origins::BL);
 		prices[i].setPosition(texts[i].getPosition().x + 5.f, texts[i].getPosition().y + 40.f);
 	}
@@ -127,11 +141,33 @@ void Store::SettingStoreArea()
 
 void Store::SellCard(Card* card)
 {
-	if (Utils::PointInTransformBounds(stores[0], stores[0].getLocalBounds(), card->GetPosition()))
+	if (Utils::PointInTransformBounds(stores[0], stores[0].getLocalBounds(), card->GetPosition()) &&
+		InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 	{
-		if (InputMgr::GetMouseButtonUp(sf::Mouse::Left))
+		if (card->GetValue() < 0)
+			return;
+		for (int i = 0; i < card->GetValue(); i++)
 		{
-			card->SetActive(false);
+			Card* card = scene->CreateCard("Coin");
+			card->SetPosition({ STORE_TABLE->Get("Buy0").pos.x, STORE_TABLE->Get("Buy0").pos.y + 170.f + i * 23.f});
+		}
+		scene->ReturnCard(card);
+	}
+}
+
+void Store::BuyDeck(Card* card)
+{
+	if (card == nullptr || card->GetId() != "Coin")
+		return;
+	for (int i = 1; i < 9; i++)
+	{
+		if (Utils::PointInTransformBounds(stores[i], stores[i].getLocalBounds(), card->GetPosition()) &&
+			InputMgr::GetMouseButtonUp(sf::Mouse::Left))
+		{
+			scene->ReturnCard(card);
+			price[i]--;
+			prices[i].setString(std::to_string(price[i]));
 		}
 	}
+	
 }

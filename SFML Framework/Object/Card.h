@@ -6,14 +6,13 @@ class Card : public GameObject
 {
 protected:
 	sf::Sprite body;
-	std::string bodyTexture = "graphics/card/yellowCard.png";
 
 	sf::Sprite icon;
-	std::string iconTex = "graphics/icon/Villager.png";
 	sf::Text cardName;
 
 	sf::Font font = FONT_MGR.Get("fonts/NotoSansKR-Medium.otf");
 
+	std::string id;
 	bool isSelect = false;
 
 	GameScene* scene;
@@ -22,17 +21,18 @@ protected:
 
 	bool isCombine = false;
 
-	//Villager
-	std::string id;
 	int health;
 	float attackSpeed;
 	float hitChance;
 	int damage;
 	int foodEat;
+	int value;
 
 	sf::Sprite hpSprite;
 	std::string hpTex = "";
 	sf::Text hpStr;
+
+	sf::Text coinStr;
 
 public:
 	Card(const std::string& name = "");
@@ -57,10 +57,14 @@ public:
 
 	void SetSelectCard();
 	bool GetSelectCard() const { return isSelect; };
+	void SetId(const std::string& id) { this->id = id; };
+	std::string GetId() const { return id; };
+	void SetValue(int val) { this->value = val; };
+	int GetValue() const { return value; };
 
 	sf::Sprite GetCardBody() const { return body; }
 
-	void CardSetting();
+	void CardSetting(std::string id);
 	void Move();
 	void MoveInArea();
 

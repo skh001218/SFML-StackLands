@@ -19,6 +19,9 @@ protected:
 	bool selectCard = false;
 	bool selectDeck = false;
 
+	std::list<Deck*> decks;
+	ObjectPool<Deck> deckPool;
+
 	std::list<Card*> cards;
 	ObjectPool<Card> cardPool;
 
@@ -46,6 +49,9 @@ public:
 	//void Collision(Card* card1, Card* card2);
 	void Collision(Card* card, Deck* deck, float dt);
 
+	void RemoveDeck(Deck* deck);
+	void CreateDeck(int order);
 
-	void CrateCard();
+	void ReturnCard(Card* card);
+	Card* CreateCard(const std::string& id);
 };

@@ -63,7 +63,7 @@ void PlayArea::Reset()
 
 void PlayArea::Update(float dt)
 {
-	
+	store->Update(dt);
 }
 
 void PlayArea::FixedUpdate(float dt)

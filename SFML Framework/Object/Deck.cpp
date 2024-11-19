@@ -11,7 +11,7 @@ void Deck::SetPosition(const sf::Vector2f& pos)
 {
 	position = pos;
 	body.setPosition(position);
-	count.setPosition({ position.x - 47.f, position.y - 71.f });
+	count.setPosition({ body.getGlobalBounds().left + 11.f, body.getGlobalBounds().top + 5.f});
 }
 
 void Deck::SetRotation(float angle)
@@ -54,21 +54,23 @@ void Deck::Release()
 void Deck::Reset()
 {
 	scene = dynamic_cast<GameScene*>(SCENE_MGR.GetCurrentScene());
+	//SetDeckList(5, 0);
+	SetDeckList(deckOrder);
 	SettingDeck();
+	
 }
 
 void Deck::Update(float dt)
 {
-	SetSelectDeck(); Move();
+	SetSelectDeck(); 
+	Move();
 	sf::Vector2f mousePos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(InputMgr::GetMousePosition());
 	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButtonUp(sf::Mouse::Left) && !isSelect)
 	{
 		ShowCard();
-		deckCount--;
-		count.setString(std::to_string(deckCount));
 		if (deckCount == 0)
 		{
-			SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+			scene->RemoveGo(this);
 		}
 	}
 		
@@ -91,17 +93,45 @@ void Deck::SetSelectDeck()
 
 void Deck::SettingDeck()
 {
-	body.setTexture(TEXTURE_MGR.Get(bodyTex));
+	body.setTexture(TEXTURE_MGR.Get(DECK_TABLE->Get("DECK").texture));
 	SetScale({0.15,0.15});
-	SetOrigin(Origins::MC);
+	SetOrigin(Origins::TC);
 
 	count.setFont(FONT_MGR.Get("fonts/NotoSansKR-Medium.otf"));
-	count.setString("5");
+	count.setString(std::to_string(DECK_TABLE->Get("DECK").count));
 	count.setCharacterSize(100);
 	count.setScale({0.15, 0.15});
-	deckCount = 5;
+	deckCount = DECK_TABLE->Get("DECK").count;
 
-	SetPosition(FRAMEWORK.GetWindowCenterPos());
+	SetPosition({ STORE_TABLE->Get("Buy1").pos.x, movableArea.top});
+}
+
+void Deck::SetDeckList(int order)
+{
+	DECK_TABLE->SetFilePath(order);
+	DECK_TABLE->Load();
+	auto deckCards = DECK_TABLE->Get("DECK").deckList;
+	int count = DECK_TABLE->Get("DECK").count;
+	
+	for (int j = 0; j < deckCards.size(); j++)
+	{
+		float rand = Utils::RandomValue();
+		float percent = 0;
+		for (int i = 0; i < deckCards[j].size(); i++)
+		{
+			if (i - 1 >= 0)
+			{
+				percent += deckCards[j][i - 1].second;
+			}
+			if (rand < deckCards[j][i].second + percent)
+			{
+				deckList.push_back(deckCards[j][i].first);
+				break;
+			}
+		}		
+	}
+	for (auto list : deckList)
+		std::cout << list << std::endl;
 }
 
 void Deck::ShowCard()
@@ -116,12 +146,26 @@ void Deck::ShowCard()
 		card->sortingOrder += cards->back()->sortingOrder + 1;
 	cards->push_back(card);
 
-	card->CardSetting();
+	card->CardSetting(deckList.front());
+	deckList.pop_front();
+	//card->CardSetting("Villager");
 
 	sf::Vector2f pos = Utils::RandomOnUnitCircle() * 200.f;
-	card->SetPosition(position + pos);
+	sf::FloatRect rect;
+	do
+	{
+		pos = Utils::RandomOnUnitCircle() * 200.f;
+		card->SetPosition(position + pos);
+		rect = card->GetGlobalBounds();
+	} while (!movableArea.contains(position + pos) || !movableArea.contains({ rect.left, rect.top }) ||
+		!movableArea.contains({ rect.left + rect.width, rect.top + rect.height }));
+	std::cout << rect.left << " " << rect.top << " " << rect.left + rect.width << " " << rect.top + rect.height << std::endl;
+	std::cout << movableArea.contains({ 1823.74, 526.171 }) << std::endl;
+	
 
 	scene->AddGo(card);
+	deckCount--;
+	count.setString(std::to_string(deckCount));
 }
 
 void Deck::Move()

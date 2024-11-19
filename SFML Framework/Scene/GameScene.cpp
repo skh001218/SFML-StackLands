@@ -12,7 +12,7 @@ GameScene::GameScene() : Scene(SceneIds::Game)
 void GameScene::Init()
 {
 	AddGo(new PlayArea());
-	deck = AddGo(new Deck());
+	//deck = AddGo(new Deck());
 	Scene::Init();
 }
 
@@ -42,6 +42,13 @@ void GameScene::Exit()
 	}
 	cards.clear();
 
+	for (auto deck : decks)
+	{
+		RemoveGo(deck);
+		deckPool.Return(deck);
+	}
+	decks.clear();
+
 	Scene::Exit();
 }
 
@@ -51,20 +58,24 @@ void GameScene::Update(float dt)
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
 	{
-		CrateCard();
+		CreateDeck(0);
 	}
-	selectDeck = deck->GetSelectDeck();
+	
 }
 
 void GameScene::FixedUpdate(float dt)
 {
 	SetSelectCard();
+	if (deck != nullptr)
+	{
+		selectDeck = deck->GetSelectDeck();
+	}
 	CloseUpDown(dt);
 	MoveScreen(dt);
-	for (auto& card : cards)
+	/*for (auto& card : cards)
 	{
 		Collision(card, deck, dt);
-	}
+	}*/
 
 	Scene::FixedUpdate(dt);
 }
@@ -88,6 +99,16 @@ void GameScene::SetSelectCard()
 		if (selectCard)
 		{
 			this->card = card;
+			break;
+		}
+	}
+
+	for (auto deck : decks)
+	{
+		selectDeck = deck->GetSelectDeck();
+		if (selectDeck)
+		{
+			this->deck = deck;
 			break;
 		}
 	}
@@ -160,15 +181,41 @@ void GameScene::Collision(Card* card, Deck* deck, float dt)
 	}
 }
 
-void GameScene::CrateCard()
+void GameScene::RemoveDeck(Deck* deck)
+{
+	RemoveGo(deck);
+	deck = nullptr;
+}
+
+void GameScene::CreateDeck(int order)
+{
+	Deck* deck = new Deck();
+	/*Deck* deck = deckPool.Take();*/
+	deck->SetDeckOrder(order);
+	decks.push_back(deck);
+	deck->Reset();
+	//card->CardSetting("Villager");
+	AddGo(deck);
+}
+
+void GameScene::ReturnCard(Card* card)
+{
+	RemoveGo(card);
+	cardPool.Return(card);
+	cards.remove(card);
+	this->card = nullptr;
+}
+
+Card* GameScene::CreateCard(const std::string& id)
 {
 	Card* card = cardPool.Take();
+	
+	if (cards.size() == 0)
+		card->sortingOrder = 0;
+	else
+		card->sortingOrder += cards.back()->sortingOrder + 1;
+	card->CardSetting(id);
 	cards.push_back(card);
 
-	card->CardSetting();
-
-	sf::Vector2f pos = FRAMEWORK.GetWindowCenterPos();
-	card->SetPosition(pos);
-
-	AddGo(card);
+	return AddGo(card);
 }

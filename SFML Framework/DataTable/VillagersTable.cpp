@@ -28,6 +28,8 @@ bool VillagersTable::Load()
 		table[id].foodEat = stoi(row[5]);
 		table[id].iconTex = row[6];
 		table[id].name = converter.from_bytes(row[7]);
+		table[id].cardColor = row[8];
+		table[id].value = stoi(row[9]);
 	}
 
 	return true;
