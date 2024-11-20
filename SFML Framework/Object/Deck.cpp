@@ -63,10 +63,16 @@ void Deck::Reset()
 
 void Deck::Update(float dt)
 {
-	SetSelectDeck(); 
+	
+		
+}
+
+void Deck::FixedUpdate(float dt)
+{
+	SetSelectDeck();
 	Move();
 	sf::Vector2f mousePos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(InputMgr::GetMousePosition());
-	if (body.getGlobalBounds().contains(mousePos) && !InputMgr::GetMouseButton(sf::Mouse::Left) && 
+	if (body.getGlobalBounds().contains(mousePos) && !InputMgr::GetMouseButton(sf::Mouse::Left) &&
 		InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 	{
 		ShowCard();
@@ -75,7 +81,6 @@ void Deck::Update(float dt)
 			scene->RemoveGo(this);
 		}
 	}
-		
 }
 
 void Deck::Draw(sf::RenderWindow& window)
@@ -88,7 +93,7 @@ void Deck::SetSelectDeck()
 {
 	
 	sf::Vector2f mousePos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(InputMgr::GetMousePosition());
-	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButton(sf::Mouse::Left))
+	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButton(sf::Mouse::Left) && scene->topGoWorld == this)
 	{
 		sortingOrder = scene->MaxCardOrder() + 1;
 		isSelect = true;
