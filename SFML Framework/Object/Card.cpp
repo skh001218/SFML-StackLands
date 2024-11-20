@@ -103,6 +103,16 @@ void Card::SetSelectCard()
 	{	
 		sortingOrder = scene->MaxCardOrder() + 1;
 		isSelect = true;
+		if (combineDown != nullptr)
+		{
+			combineDown->combineUp = nullptr;
+		}
+		if (combineUp != nullptr)
+		{
+			combineUp->combineDown = nullptr;
+		}
+		combineDown = nullptr;
+		combineUp = nullptr;
 	}
 		
 	else if (InputMgr::GetMouseButtonUp(sf::Mouse::Left))
@@ -214,7 +224,15 @@ void Card::CombineCard()
 			continue;
 		if (card->GetGlobalBounds().intersects(this->GetGlobalBounds()) && InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 		{
-			SetPosition({ card->GetPosition().x , card->GetPosition().y + 23.f });
+			if (card->combineDown == nullptr)
+			{
+				card->combineDown = this;
+				this->combineUp = card;
+				SetPosition({ card->GetPosition().x , card->GetPosition().y + 23.f });
+				return;
+			}
+			else
+				continue;
 		}
 	}
 	

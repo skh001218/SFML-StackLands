@@ -34,6 +34,8 @@ protected:
 
 	sf::Text coinStr;
 
+	Card* combineUp;
+	Card* combineDown;
 public:
 	Card(const std::string& name = "");
 	~Card() = default;
@@ -61,6 +63,11 @@ public:
 	std::string GetId() const { return id; };
 	void SetValue(int val) { this->value = val; };
 	int GetValue() const { return value; };
+
+	void SetCombineUp(Card* card) { this->combineUp = card; };
+	Card* GetCombineUp() const { return combineUp; };
+	void SetCombineDown(Card* card) { this->combineDown = card; };
+	Card* GetCombineDown() const { return combineDown; };
 
 	sf::Sprite GetCardBody() const { return body; }
 

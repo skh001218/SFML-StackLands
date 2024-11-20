@@ -253,10 +253,10 @@ Card* GameScene::CreateCard(const std::string& id)
 	/*if (cards.size() == 0)
 		card->sortingOrder = 0;
 	else*/
-	card->sortingOrder += MaxCardOrder() + 1;
+	card->sortingOrder = MaxCardOrder() + 1;
 	card->CardSetting(id);
 	cards.push_back(card);
-	MaxCardOrder();
+	std::cout << "card" << card->sortingOrder << std::endl;
 	return AddGo(card);
 }
 
@@ -268,6 +268,14 @@ int GameScene::MaxCardOrder()
 		if (go->sortingLayer == SortingLayers::Card)
 		{
 			maxOrder = std::max(maxOrder, go->sortingOrder);
+		}
+	}
+	for (auto addGo : addGameObjects)
+	{
+		if (addGo->sortingLayer == SortingLayers::Card)
+		{
+			if (addGo->sortingOrder > maxOrder)
+				maxOrder = addGo->sortingOrder;
 		}
 	}
 	return maxOrder;

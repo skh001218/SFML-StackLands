@@ -144,12 +144,24 @@ void Store::SellCard(Card* card)
 	if (Utils::PointInTransformBounds(stores[0], stores[0].getLocalBounds(), card->GetPosition()) &&
 		InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 	{
+		std::vector<Card*> coinList;
 		if (card->GetValue() < 0)
 			return;
 		for (int i = 0; i < card->GetValue(); i++)
 		{
 			Card* card = scene->CreateCard("Coin");
+			coinList.push_back(card);
 			card->SetPosition({ STORE_TABLE->Get("Buy0").pos.x, STORE_TABLE->Get("Buy0").pos.y + 170.f + i * 23.f});
+		}
+		for (int i = 0; i < coinList.size(); i++)
+		{
+			if (i - 1 >= 0)
+			{
+				coinList[i - 1]->SetCombineDown(coinList[i]);
+				coinList[i]->SetCombineUp(coinList[i - 1]);
+				std::cout << coinList[i - 1]->GetCombineDown()->GetPosition().y << std::endl;
+				std::cout << coinList[i]->GetCombineUp()->GetPosition().y << std::endl;
+			}
 		}
 		scene->ReturnCard(card);
 	}

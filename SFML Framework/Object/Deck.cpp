@@ -139,8 +139,7 @@ void Deck::SetDeckList(int order)
 			}
 		}		
 	}
-	for (auto list : deckList)
-		std::cout << list << std::endl;
+	
 }
 
 void Deck::ShowCard()
@@ -149,15 +148,12 @@ void Deck::ShowCard()
 	std::list<Card*>* cards = scene->GetCardList();
 
 	Card* card = cardPool->Take();
-	/*if (cards->size() == 0)
-		card->sortingOrder = 0;
-	else*/
+	
 	card->sortingOrder += scene->MaxCardOrder() +1;
 	cards->push_back(card);
 
 	card->CardSetting(deckList.front());
 	deckList.pop_front();
-	//card->CardSetting("Villager");
 
 	sf::Vector2f pos = Utils::RandomOnUnitCircle() * 200.f;
 	sf::FloatRect rect;
