@@ -25,7 +25,14 @@ protected:
 	std::list<Card*> cards;
 	ObjectPool<Card> cardPool;
 
+	
+
+
 public:
+
+	GameObject* topGoWorld;
+	GameObject* topGoUi;
+
 	GameScene();
 	~GameScene() = default;
 
@@ -54,4 +61,6 @@ public:
 
 	void ReturnCard(Card* card);
 	Card* CreateCard(const std::string& id);
+
+	int MaxCardOrder();
 };

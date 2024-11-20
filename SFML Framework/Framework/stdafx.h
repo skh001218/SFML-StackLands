@@ -13,6 +13,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <json.hpp>
+using json = nlohmann::json;
 
 #include "Defines.h"
 #include "Variables.h"
@@ -25,6 +27,7 @@
 #include "StoreTable.h"
 #include "DeckTable.h"
 #include "VillagersTable.h"
+#include "CombineTable.h"
 #include "DataTableMgr.h"
 #include "Framework.h"
 #include "InputMgr.h"

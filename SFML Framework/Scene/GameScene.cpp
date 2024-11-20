@@ -3,6 +3,7 @@
 #include "PlayArea.h"
 #include "Card.h"
 #include "Deck.h"
+#include "CombineTable.h"
 
 GameScene::GameScene() : Scene(SceneIds::Game)
 {
@@ -30,6 +31,8 @@ void GameScene::Enter()
 	uiView.setCenter(FRAMEWORK.GetWindowCenterPos());
 	uiView.setSize(FRAMEWORK.GetWindowSizeF());
 
+	CreateDeck(0);
+	
 	Scene::Enter();
 }
 
@@ -59,12 +62,48 @@ void GameScene::Update(float dt)
 	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
 	{
 		CreateDeck(0);
+		
 	}
 	
 }
 
 void GameScene::FixedUpdate(float dt)
 {
+
+	topGoWorld = nullptr;
+	topGoUi = nullptr;
+
+	auto uiMousePos = ScreenToUi(InputMgr::GetMousePosition());
+	auto worldMousePos = ScreenToWorld(InputMgr::GetMousePosition());
+
+	for (auto go : gameObjects)
+	{
+		if (go->sortingLayer == SortingLayers::UI)
+		{
+			if (go->GetGlobalBounds().contains(uiMousePos))
+			{
+				if (topGoUi == nullptr)
+				{
+					
+				}
+
+			}
+		}
+		else
+		{
+			if (go->GetGlobalBounds().contains(worldMousePos))
+			{
+				if (topGoWorld == nullptr || topGoWorld->sortingOrder < go->sortingOrder)
+				{
+					topGoWorld = go;
+				}
+					
+			}
+		}
+	}
+
+
+
 	SetSelectCard();
 	if (deck != nullptr)
 	{
@@ -192,8 +231,9 @@ void GameScene::CreateDeck(int order)
 	Deck* deck = new Deck();
 	/*Deck* deck = deckPool.Take();*/
 	deck->SetDeckOrder(order);
-	decks.push_back(deck);
 	deck->Reset();
+	deck->sortingOrder = MaxCardOrder() + 1;
+	decks.push_back(deck);
 	//card->CardSetting("Villager");
 	AddGo(deck);
 }
@@ -210,12 +250,25 @@ Card* GameScene::CreateCard(const std::string& id)
 {
 	Card* card = cardPool.Take();
 	
-	if (cards.size() == 0)
+	/*if (cards.size() == 0)
 		card->sortingOrder = 0;
-	else
-		card->sortingOrder += cards.back()->sortingOrder + 1;
+	else*/
+	card->sortingOrder += MaxCardOrder() + 1;
 	card->CardSetting(id);
 	cards.push_back(card);
-
+	MaxCardOrder();
 	return AddGo(card);
+}
+
+int GameScene::MaxCardOrder()
+{
+	int maxOrder = 0;
+	for (auto go : gameObjects)
+	{
+		if (go->sortingLayer == SortingLayers::Card)
+		{
+			maxOrder = std::max(maxOrder, go->sortingOrder);
+		}
+	}
+	return maxOrder;
 }

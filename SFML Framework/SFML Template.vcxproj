@@ -185,6 +185,7 @@
     <ClInclude Include="Animation\Animator.h" />
     <ClInclude Include="DataTable\DeckTable.h" />
     <ClInclude Include="DataTable\VillagersTable.h" />
+    <ClInclude Include="Framework\json.hpp" />
     <ClInclude Include="Object\Card.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="DataTable\DataTableMgr.h" />

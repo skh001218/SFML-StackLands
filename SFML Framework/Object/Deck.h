@@ -15,7 +15,7 @@ protected:
 	int deckOrder = 0;
 
 	bool isSelect;
-	sf::FloatRect movableArea = { 165, 290, 1745, 980 };
+	sf::FloatRect movableArea = { 165, 290, 1580, 690 };
 
 	GameScene* scene;
 

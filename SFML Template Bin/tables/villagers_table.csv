@@ -2,5 +2,11 @@
 Villager,15,2.9,0.68,2,2,graphics/icon/Villager.png,주민,graphics/card/yellowCard.png,-1
 Berry Bush,-1,-1,-1,-1,-1,graphics/icon/Bush.png,딸기나무,graphics/card/blackCard.png,1
 Rock,-1,-1,-1,-1,-1,graphics/icon/Rock.png,바위,graphics/card/blackCard.png,2
-Wood,-1,-1,-1,-1,-1,graphics/icon/Wood.png,나무,graphics/card/silverCard.png,0
+Wood,-1,-1,-1,-1,-1,graphics/icon/Wood.png,목재,graphics/card/silverCard.png,0
 Coin,-1,-1,-1,-1,-1,graphics/icon/Coin.png,코인,graphics/card/yellowCard.png,-1
+Stone,-1,-1,-1,-1,-1,graphics/icon/Stone.png,석재,graphics/card/blackCard.png,1
+Soil,-1,-1,-1,-1,-1,graphics/icon/Soil.png,토양,graphics/card/blackCard.png,3
+Tree,-1,-1,-1,-1,-1,graphics/icon/Tree.png,나무,graphics/card/blackCard.png,0
+Key,-1,-1,-1,-1,-1,graphics/icon/Key.png,열쇠,graphics/card/yellowCard.png,3
+Rabbit,5,1.5,0.6,2,-1,graphics/icon/Rabbit.png,토끼,graphics/card/yellowCard.png,-1
+Rat,5,1.5,0.6,2,-1,graphics/icon/Small-Rat.png,쥐,graphics/card/redCard.png,-1

@@ -13,8 +13,8 @@ void Card::SetPosition(const sf::Vector2f& pos)
 	position = pos;
 	body.setPosition(position);
 	icon.setPosition(position);
-	hpStr.setPosition(body.getGlobalBounds().left + body.getGlobalBounds().width - 12.f,
-		body.getGlobalBounds().top + body.getGlobalBounds().height - 14.f);
+	hpStr.setPosition(body.getGlobalBounds().left + body.getGlobalBounds().width - 18.f,
+		body.getGlobalBounds().top + body.getGlobalBounds().height - 18.f);
 	cardName.setPosition(body.getGlobalBounds().left + 5.f, body.getGlobalBounds().top + 3.f);
 	hpSprite.setPosition(body.getGlobalBounds().left + body.getGlobalBounds().width - 5.f, 
 		body.getGlobalBounds().top + body.getGlobalBounds().height - 3.f);
@@ -74,6 +74,7 @@ void Card::FixedUpdate(float dt)
 {
 	Move();
 	MoveInArea();
+	CombineCard();
 }
 
 void Card::Draw(sf::RenderWindow& window)
@@ -95,10 +96,12 @@ void Card::Draw(sf::RenderWindow& window)
 
 void Card::SetSelectCard()
 {
+
 	sf::Vector2f mousePos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(InputMgr::GetMousePosition());
 	std::list<Card*>* cards = scene->GetCardList();
-	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButtonDown(sf::Mouse::Left))
-	{		
+	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButtonDown(sf::Mouse::Left) && scene->topGoWorld == this)
+	{	
+		sortingOrder = scene->MaxCardOrder() + 1;
 		isSelect = true;
 	}
 		
@@ -129,7 +132,7 @@ void Card::CardSetting(std::string id)
 	hpStr.setCharacterSize(150);
 	hpStr.setScale(0.07f, 0.07f);
 	hpStr.setFillColor(sf::Color::White);
-	Utils::SetOrigin(hpStr, Origins::BR);
+	Utils::SetOrigin(hpStr, Origins::MC);
 	hpSprite.setTexture(TEXTURE_MGR.Get("graphics/icon/Ui_Hart.png"));
 	hpSprite.setColor(sf::Color::Black);
 	hpSprite.setScale(0.05f, 0.05f);
@@ -154,6 +157,11 @@ void Card::CardSetting(std::string id)
 
 void Card::Move()
 {
+	if (scene->topGoWorld != this)
+	{
+		return;
+	}
+
 	if (InputMgr::GetMouseButton(sf::Mouse::Left) && isSelect)
 	{
 		sf::Vector2f mPos = scene->ScreenToWorld(InputMgr::GetMousePositionB()) -
@@ -195,12 +203,19 @@ void Card::MoveInArea()
 
 void Card::CombineCard()
 {
-	std::list<Card*>* cards = scene->GetCardList();
-	for (auto& card : *cards)
+	if (scene->topGoWorld != this)
 	{
-		if (Utils::CheckCollision(body, card->GetCardBody()))
+		return;
+	}
+
+	for (auto& card : *scene->GetCardList())
+	{
+		if (card == this)
+			continue;
+		if (card->GetGlobalBounds().intersects(this->GetGlobalBounds()) && InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 		{
-			card->GetGlobalBounds().top - 10.f;
+			SetPosition({ card->GetPosition().x , card->GetPosition().y + 23.f });
 		}
 	}
+	
 }

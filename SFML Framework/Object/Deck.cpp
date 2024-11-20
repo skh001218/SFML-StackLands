@@ -53,6 +53,7 @@ void Deck::Release()
 
 void Deck::Reset()
 {
+	sortingLayer = SortingLayers::Card;
 	scene = dynamic_cast<GameScene*>(SCENE_MGR.GetCurrentScene());
 	//SetDeckList(5, 0);
 	SetDeckList(deckOrder);
@@ -65,7 +66,8 @@ void Deck::Update(float dt)
 	SetSelectDeck(); 
 	Move();
 	sf::Vector2f mousePos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(InputMgr::GetMousePosition());
-	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButtonUp(sf::Mouse::Left) && !isSelect)
+	if (body.getGlobalBounds().contains(mousePos) && !InputMgr::GetMouseButton(sf::Mouse::Left) && 
+		InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 	{
 		ShowCard();
 		if (deckCount == 0)
@@ -84,9 +86,13 @@ void Deck::Draw(sf::RenderWindow& window)
 
 void Deck::SetSelectDeck()
 {
+	
 	sf::Vector2f mousePos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(InputMgr::GetMousePosition());
-	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	if (body.getGlobalBounds().contains(mousePos) && InputMgr::GetMouseButton(sf::Mouse::Left))
+	{
+		sortingOrder = scene->MaxCardOrder() + 1;
 		isSelect = true;
+	}
 	else if (InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 		isSelect = false;
 }
@@ -103,7 +109,10 @@ void Deck::SettingDeck()
 	count.setScale({0.15, 0.15});
 	deckCount = DECK_TABLE->Get("DECK").count;
 
-	SetPosition({ STORE_TABLE->Get("Buy1").pos.x, movableArea.top});
+	if (deckOrder == 0)
+		SetPosition(FRAMEWORK.GetWindowCenterPos());
+	else
+		SetPosition({ STORE_TABLE->Get("Buy" + std::to_string(deckOrder)).pos.x, movableArea.top});
 }
 
 void Deck::SetDeckList(int order)
@@ -140,10 +149,10 @@ void Deck::ShowCard()
 	std::list<Card*>* cards = scene->GetCardList();
 
 	Card* card = cardPool->Take();
-	if (cards->size() == 0)
+	/*if (cards->size() == 0)
 		card->sortingOrder = 0;
-	else
-		card->sortingOrder += cards->back()->sortingOrder + 1;
+	else*/
+	card->sortingOrder += scene->MaxCardOrder() +1;
 	cards->push_back(card);
 
 	card->CardSetting(deckList.front());
@@ -159,8 +168,6 @@ void Deck::ShowCard()
 		rect = card->GetGlobalBounds();
 	} while (!movableArea.contains(position + pos) || !movableArea.contains({ rect.left, rect.top }) ||
 		!movableArea.contains({ rect.left + rect.width, rect.top + rect.height }));
-	std::cout << rect.left << " " << rect.top << " " << rect.left + rect.width << " " << rect.top + rect.height << std::endl;
-	std::cout << movableArea.contains({ 1823.74, 526.171 }) << std::endl;
 	
 
 	scene->AddGo(card);
@@ -170,6 +177,10 @@ void Deck::ShowCard()
 
 void Deck::Move()
 {
+	if (scene->topGoWorld != this)
+	{
+		return;
+	}
 	if (InputMgr::GetMouseButton(sf::Mouse::Left) && isSelect)
 	{
 		sf::Vector2f mPos = scene->ScreenToWorld(InputMgr::GetMousePositionB()) - 

@@ -7,6 +7,7 @@ public:
 		String,
 		Store,
 		Deck,
+		Combine,
 		Villagers,
 	};
 	static const int TotalTypes = 4;

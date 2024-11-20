@@ -1,0 +1,43 @@
+{
+    "Berry" : 
+    [
+        {
+            "count" : 2 
+        },
+        {
+            "Berry Bush" : 1,
+            "Villager" : 1
+        },
+        {
+            "time" : 10
+        }
+    ],
+    "Stone" : 
+    [
+        {
+            "count" : 2 
+        },
+        {
+            "Rock" : 1,
+            "Villager" : 1
+        },
+        {
+            "time" : 10
+        }
+    ],
+    "Coin Chest" : 
+    [
+        {
+            "count" : 2 
+        },
+        {
+            "Coin" : 1,
+            "Wood" : 1
+        },
+        {
+            "time" : 10
+        }
+    ]
+
+
+}
