@@ -68,7 +68,7 @@ void TileMap::Init()
 	sortingLayer = SortingLayers::Background;
 	sortingOrder = -1;
 
-	Set({ 50, 50 }, { 50.f, 50.f });
+	Set({ 6, 6 }, { 84.f, 84.f });
 }
 
 void TileMap::Release()
@@ -116,19 +116,47 @@ void TileMap::Set(const sf::Vector2i& count, const sf::Vector2f& size)
 	sf::Vector2f texCoords[4] =
 	{
 		{ 0, 0 },
-		{ 50.f, 0 },
-		{ 50.f, 50.f },
-		{ 0, 50.f },
+		{ 84.f, 0 },
+		{ 84.f, 84.f },
+		{ 0, 84.f },
 	};
 
 	for (int i = 0; i < count.y; ++i)
 	{
 		for (int j = 0; j < count.x; ++j)
 		{
-			int texIndex = Utils::RandomRange(0, 2);
-			if (i == 0 || i == count.y - 1 || j == 0 || j == count.x - 1)
+			sf::Vector2i texIndex = { 1, 1 };
+			if (i == 0 && j == 0)
 			{
-				texIndex = 3;
+				texIndex = { 0, 0 };
+			}
+			if (i == count.y - 1 && j == 0)
+			{
+				texIndex = { 0, 2 };
+			}
+			if (i == 0 && j == count.x - 1)
+			{
+				texIndex = { 2, 0 };
+			}
+			if (i == count.y - 1 && j == count.x - 1)
+			{
+				texIndex = { 2, 2 };
+			}
+			if ((i > 0 && i < count.y - 1) && j == 0)
+			{
+				texIndex = { 0, 1 };
+			}
+			if ((i > 0 && i < count.y - 1) && j == count.x - 1)
+			{
+				texIndex = { 2, 1 };
+			}
+			if ((j > 0 && j < count.x - 1) && i == 0)
+			{
+				texIndex = { 1, 0 };
+			}
+			if ((j > 0 && j < count.x - 1) && i == count.y - 1)
+			{
+				texIndex = { 1, 2 };
 			}
 			
 			int quadIndex = i * count.x + j;
@@ -139,7 +167,8 @@ void TileMap::Set(const sf::Vector2i& count, const sf::Vector2f& size)
 				int vertexIndex = quadIndex * 4 + k;
 				va[vertexIndex].position = quadPos + posOffset[k];
 				va[vertexIndex].texCoords = texCoords[k];
-				va[vertexIndex].texCoords.y += texIndex * 50.f;
+				va[vertexIndex].texCoords.x += texIndex.x * 84.f;
+				va[vertexIndex].texCoords.y += texIndex.y * 84.f;
 			}
 		}
 	}

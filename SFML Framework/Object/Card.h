@@ -10,6 +10,8 @@ protected:
 	sf::Sprite icon;
 	sf::Text cardName;
 
+	std::map<std::string, int> table;
+
 	sf::Font font = FONT_MGR.Get("fonts/NotoSansKR-Medium.otf");
 
 	std::string id;
@@ -20,6 +22,7 @@ protected:
 	sf::FloatRect movableArea = { 165, 290, 1745, 980 };
 
 	bool isCombine = false;
+	bool StartCombine = false;
 
 	int health;
 	float attackSpeed;
@@ -58,7 +61,7 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void SetSelectCard();
-	bool GetSelectCard() const { return isSelect; };
+	bool GetIsSelect() const override { return isSelect; };
 	void SetId(const std::string& id) { this->id = id; };
 	std::string GetId() const { return id; };
 	void SetValue(int val) { this->value = val; };
@@ -72,9 +75,11 @@ public:
 	sf::Sprite GetCardBody() const { return body; }
 
 	void CardSetting(std::string id);
-	void Move();
+	void Move(float dt);
 	void MoveInArea();
 
 	void CombineCard();
+	void CombineAction();
+	void CheckCombine();
 };
 

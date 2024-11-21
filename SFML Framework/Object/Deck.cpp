@@ -153,24 +153,35 @@ void Deck::ShowCard()
 	std::list<Card*>* cards = scene->GetCardList();
 
 	Card* card = cardPool->Take();
-	
-	card->sortingOrder += scene->MaxCardOrder() +1;
-	cards->push_back(card);
 
 	card->CardSetting(deckList.front());
 	deckList.pop_front();
 
-	sf::Vector2f pos = Utils::RandomOnUnitCircle() * 200.f;
+	sf::Vector2f pos;
 	sf::FloatRect rect;
+	bool ok = true;
 	do
 	{
 		pos = Utils::RandomOnUnitCircle() * 200.f;
 		card->SetPosition(position + pos);
 		rect = card->GetGlobalBounds();
+
+		for (auto c : *cards)
+		{
+			if (card->GetGlobalBounds().intersects(c->GetGlobalBounds()))
+			{
+				ok = false;
+				break;
+			}	
+			else
+				ok = true;
+		}
+
 	} while (!movableArea.contains(position + pos) || !movableArea.contains({ rect.left, rect.top }) ||
 		!movableArea.contains({ rect.left + rect.width, rect.top + rect.height }));
 	
-
+	card->sortingOrder += scene->MaxCardOrder() + 1;
+	cards->push_back(card);
 	scene->AddGo(card);
 	deckCount--;
 	count.setString(std::to_string(deckCount));

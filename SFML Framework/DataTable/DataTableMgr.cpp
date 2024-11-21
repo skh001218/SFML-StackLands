@@ -12,6 +12,7 @@ void DataTableMgr::Init()
 
 	//tables.insert({ DataTable::Types::String, new StringTable() });
 	tables.insert({ DataTable::Types::Store, new StoreTable() });
+	tables.insert({ DataTable::Types::Combine, new CombineTable() });
 	tables.insert({ DataTable::Types::Deck, new DeckTable() });
 	tables.insert({ DataTable::Types::Villagers, new VillagersTable() });
 

@@ -91,13 +91,18 @@ void GameScene::FixedUpdate(float dt)
 		}
 		else
 		{
-			if (go->GetGlobalBounds().contains(worldMousePos))
+			if (go->sortingLayer == SortingLayers::Card)
 			{
-				if (topGoWorld == nullptr || topGoWorld->sortingOrder < go->sortingOrder)
+				if (go->GetGlobalBounds().contains(worldMousePos))
 				{
-					topGoWorld = go;
+					if (topGoWorld == nullptr || topGoWorld->sortingOrder < go->sortingOrder)
+					{
+						topGoWorld = go;
+					}
+
 				}
-					
+				if(go->GetIsSelect())
+					topGoWorld = go;
 			}
 		}
 	}
@@ -107,7 +112,7 @@ void GameScene::FixedUpdate(float dt)
 	SetSelectCard();
 	if (deck != nullptr)
 	{
-		selectDeck = deck->GetSelectDeck();
+		selectDeck = deck->GetIsSelect();
 	}
 	CloseUpDown(dt);
 	MoveScreen(dt);
@@ -134,7 +139,7 @@ void GameScene::SetSelectCard()
 {
 	for (auto card : cards)
 	{
-		selectCard = card->GetSelectCard();
+		selectCard = card->GetIsSelect();
 		if (selectCard)
 		{
 			this->card = card;
@@ -144,7 +149,7 @@ void GameScene::SetSelectCard()
 
 	for (auto deck : decks)
 	{
-		selectDeck = deck->GetSelectDeck();
+		selectDeck = deck->GetIsSelect();
 		if (selectDeck)
 		{
 			this->deck = deck;

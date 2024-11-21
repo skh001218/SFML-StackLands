@@ -41,7 +41,7 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void SetSelectDeck();
-	bool GetSelectDeck() const { return isSelect; };
+	bool GetIsSelect() const override { return isSelect; };
 
 	void SetDeckOrder(int order) { deckOrder = order; };
 	int GetDeckOrder() const { return deckOrder; };

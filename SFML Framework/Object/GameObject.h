@@ -61,6 +61,7 @@ public:
 	{
 		return hitbox;
 	}
+	virtual bool GetIsSelect() const { return false; }
 
 	virtual void Init() = 0;
 	virtual void Release() = 0;

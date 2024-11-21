@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="Animation\AnimationClip.cpp" />
     <ClCompile Include="Animation\Animator.cpp" />
+    <ClCompile Include="DataTable\CombineTable.cpp" />
     <ClCompile Include="DataTable\DeckTable.cpp" />
     <ClCompile Include="DataTable\VillagersTable.cpp" />
     <ClCompile Include="Object\Card.cpp" />
@@ -183,6 +184,7 @@
   <ItemGroup>
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="Animation\Animator.h" />
+    <ClInclude Include="DataTable\CombineTable.h" />
     <ClInclude Include="DataTable\DeckTable.h" />
     <ClInclude Include="DataTable\VillagersTable.h" />
     <ClInclude Include="Framework\json.hpp" />

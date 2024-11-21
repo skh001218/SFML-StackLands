@@ -68,11 +68,12 @@ void Card::Reset()
 void Card::Update(float dt)
 {
 	SetSelectCard();
+	//CombineAction(this);
 }
 
 void Card::FixedUpdate(float dt)
 {
-	Move();
+	Move(dt);
 	MoveInArea();
 	CombineCard();
 }
@@ -114,7 +115,6 @@ void Card::SetSelectCard()
 		combineDown = nullptr;
 		combineUp = nullptr;
 	}
-		
 	else if (InputMgr::GetMouseButtonUp(sf::Mouse::Left))
 		isSelect = false;
 }
@@ -165,7 +165,7 @@ void Card::CardSetting(std::string id)
 	SetPosition(FRAMEWORK.GetWindowCenterPos());
 }
 
-void Card::Move()
+void Card::Move(float dt)
 {
 	if (scene->topGoWorld != this)
 	{
@@ -174,9 +174,13 @@ void Card::Move()
 
 	if (InputMgr::GetMouseButton(sf::Mouse::Left) && isSelect)
 	{
-		sf::Vector2f mPos = scene->ScreenToWorld(InputMgr::GetMousePositionB()) -
+		sf::Vector2f mPos = //scene->ScreenToWorld(InputMgr::GetMousePositionB()) -
 			scene->ScreenToWorld(InputMgr::GetMousePosition());
-		SetPosition(position - mPos);
+		//SetPosition(position - mPos);
+		sf::Vector2f direction = Utils::GetNormal(mPos - position);
+		position.x = Utils::Clamp(position.x + direction.x * 500.f * dt, mPos.x, mPos.x);
+		position.y = Utils::Clamp(position.y + direction.x * 500.f * dt, mPos.y, mPos.y);
+		SetPosition(position);
 	}
 }
 
@@ -229,6 +233,8 @@ void Card::CombineCard()
 				card->combineDown = this;
 				this->combineUp = card;
 				SetPosition({ card->GetPosition().x , card->GetPosition().y + 23.f });
+				CombineAction();
+				CheckCombine();
 				return;
 			}
 			else
@@ -236,4 +242,66 @@ void Card::CombineCard()
 		}
 	}
 	
+}
+
+void Card::CombineAction()
+{
+
+	table.clear();
+	table.insert({ id, 1 });
+
+	Card* tempUp = combineUp;
+	Card* tempDown = combineDown;
+
+	while (tempUp != nullptr)
+	{
+		auto find = table.find(tempUp->id);
+		if (find != table.end())
+		{
+			table[tempUp->id]++;
+			tempUp = tempUp->combineUp;
+		}
+		else
+		{
+			table.insert({ tempUp->id, 1 });
+			tempUp = tempUp->combineUp;
+		}
+	}
+	while (tempDown != nullptr)
+	{
+		auto find = table.find(tempDown->id);
+		if (find != table.end())
+		{
+			table[id]++;
+			tempDown = tempDown->combineDown;
+		}
+		else
+		{
+			table.insert({ id, 1 });
+			tempDown = tempDown->combineDown;
+		}
+	}
+}
+
+void Card::CheckCombine()
+{
+	StartCombine = false;
+	std::unordered_map<std::string, DataCombine> chek = COMBINE_TABLE->Get();
+	for (auto iter = chek.begin(); iter != chek.end(); iter++) 
+	{
+		for (int i = 0; i < iter->second.count; i++)
+		{
+			auto find = table.find(iter->second.kinds[i].first);
+			if (find == table.end())
+			{
+				return;
+			}
+			if (iter->second.kinds[i].second > find->second)
+			{
+				return;
+			}
+			
+		}
+		StartCombine = true;
+	}
 }
