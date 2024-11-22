@@ -26,10 +26,12 @@ bool VillagersTable::Load()
 		table[id].hitChance = stof(row[3]);
 		table[id].damage = stoi(row[4]);
 		table[id].foodEat = stoi(row[5]);
-		table[id].iconTex = row[6];
-		table[id].name = converter.from_bytes(row[7]);
-		table[id].cardColor = row[8];
-		table[id].value = stoi(row[9]);
+		table[id].foodGet = stoi(row[6]);
+		table[id].iconTex = row[7];
+		table[id].name = converter.from_bytes(row[8]);
+		table[id].cardColor = row[9];
+		table[id].value = stoi(row[10]);
+		table[id].useCoinIcon = row[11];
 	}
 
 	return true;

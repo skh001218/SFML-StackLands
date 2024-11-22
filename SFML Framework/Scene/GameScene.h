@@ -32,6 +32,7 @@ public:
 
 	GameObject* topGoWorld;
 	GameObject* topGoUi;
+	std::list<std::vector<Card*>> cardCombineList;
 
 	GameScene();
 	~GameScene() = default;
@@ -63,4 +64,6 @@ public:
 	Card* CreateCard(const std::string& id);
 
 	int MaxCardOrder();
+	
+	void SetCombineList();
 };

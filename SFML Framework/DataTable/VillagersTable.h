@@ -9,10 +9,12 @@ struct DataVillagers
 	float	hitChance;
 	int		damage;
 	int		foodEat;
+	int		foodGet;
 	std::string iconTex;
 	std::wstring name;
 	std::string cardColor;
 	int value;
+	std::string useCoinIcon;
 };
 
 

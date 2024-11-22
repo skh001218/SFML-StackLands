@@ -58,6 +58,11 @@ void GameScene::Exit()
 void GameScene::Update(float dt)
 {
 	Scene::Update(dt);
+	//for (auto card : cards)
+	//{
+	//	if (card->GetDurability() == 0)
+	//		ReturnCard(card);
+	//}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
 	{
@@ -107,8 +112,7 @@ void GameScene::FixedUpdate(float dt)
 		}
 	}
 
-
-
+	
 	SetSelectCard();
 	if (deck != nullptr)
 	{
@@ -245,6 +249,14 @@ void GameScene::CreateDeck(int order)
 
 void GameScene::ReturnCard(Card* card)
 {
+	if(card->GetCombineUp() != nullptr )
+		card->GetCombineUp()->SetCombineDown(nullptr);
+	if (card->GetCombineDown() != nullptr)
+		card->GetCombineDown()->SetCombineUp(nullptr);
+
+	card->SetCombineUp(nullptr);
+	card->SetCombineDown(nullptr);
+
 	RemoveGo(card);
 	cardPool.Return(card);
 	cards.remove(card);
@@ -284,4 +296,47 @@ int GameScene::MaxCardOrder()
 		}
 	}
 	return maxOrder;
+}
+
+void GameScene::SetCombineList()
+{
+	for (auto card : cards)
+	{
+		if (cardCombineList.size() == 0 )
+		{
+			std::vector<Card*> vec;
+			vec.push_back(card);
+			cardCombineList.push_back(vec);
+		}
+		for (auto i = cardCombineList.begin(); i != cardCombineList.end(); i++)
+		{
+			std::vector<Card*> temp = *i;
+			if (std::find(temp.begin(), temp.end(), card) == temp.end())
+			{
+				std::vector<Card*> vec;
+				vec.push_back(card);
+				cardCombineList.push_back(vec);
+			}
+
+			if (card->GetCombineUp() == nullptr)
+				continue;
+
+			if (std::find(temp.begin(), temp.end(), card) == temp.end() &&
+				std::find(temp.begin(), temp.end(), card->GetCombineUp()) != temp.end())
+			{
+				i->push_back(card);
+			}
+
+			if (std::find(temp.begin(), temp.end(), card) != temp.end() &&
+				std::find(temp.begin(), temp.end(), card->GetCombineUp()) == temp.end())
+			{
+				i->erase(std::find(temp.begin(), temp.end(), card));
+				if (i->size() < 1)
+				{
+					cardCombineList.remove(*i);
+				}
+			}
+			
+		}
+	}
 }

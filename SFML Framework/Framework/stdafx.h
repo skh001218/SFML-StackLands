@@ -35,6 +35,7 @@ using json = nlohmann::json;
 #include "GameObject.h"
 #include "TextGo.h"
 #include "SpriteGo.h"
+#include "Timer.h"
 #include "Card.h"
 #include "SceneMgr.h"
 #include "Scene.h"

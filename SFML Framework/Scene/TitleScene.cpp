@@ -10,6 +10,7 @@ TitleScene::TitleScene() : Scene(SceneIds::Title)
 void TitleScene::Init()
 {
 	menu = AddGo(new TileMap());
+	temp = AddGo(new UiSys());
 	Scene::Init();
 	
 }
@@ -33,9 +34,6 @@ void TitleScene::Enter()
 
 	next.clear();
 	isChange = false;
-
-	CombineTable com = CombineTable();
-	com.Load();
 }
 
 void TitleScene::Exit()

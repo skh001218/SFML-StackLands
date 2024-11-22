@@ -175,8 +175,10 @@
     <ClCompile Include="Object\Store.cpp" />
     <ClCompile Include="Object\TextGo.cpp" />
     <ClCompile Include="Object\TileMap.cpp" />
+    <ClCompile Include="Object\Timer.cpp" />
     <ClCompile Include="Object\UiHud.cpp" />
     <ClCompile Include="Object\PlayArea.cpp" />
+    <ClCompile Include="Object\UiSys.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
@@ -214,8 +216,10 @@
     <ClInclude Include="Object\Store.h" />
     <ClInclude Include="Object\TextGo.h" />
     <ClInclude Include="Object\TileMap.h" />
+    <ClInclude Include="Object\Timer.h" />
     <ClInclude Include="Object\UiHud.h" />
     <ClInclude Include="Object\PlayArea.h" />
+    <ClInclude Include="Object\UiSys.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\TitleScene.h" />

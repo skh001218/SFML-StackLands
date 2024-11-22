@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "UiSys.h"
 
 class TileMap;
 
@@ -9,6 +10,7 @@ protected:
 	sf::Sprite background; 
 
 	TileMap* menu;
+	UiSys* temp;
 	sf::Sprite menuLine;
 	std::vector<sf::Text> menuStr;
 

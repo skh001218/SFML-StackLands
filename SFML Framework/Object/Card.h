@@ -29,16 +29,28 @@ protected:
 	float hitChance;
 	int damage;
 	int foodEat;
+	int foodGet;
 	int value;
+	int durability = 3;
+
+	std::string resultId;
+	float combineTime;
+	float timer;
 
 	sf::Sprite hpSprite;
-	std::string hpTex = "";
 	sf::Text hpStr;
 
+	sf::Sprite coin;
 	sf::Text coinStr;
+
+	sf::Sprite foodSprite;
+	sf::Text foodStr;
 
 	Card* combineUp;
 	Card* combineDown;
+
+	sf::Vector2f topCardPos;
+	Timer timeBar;
 public:
 	Card(const std::string& name = "");
 	~Card() = default;
@@ -67,6 +79,9 @@ public:
 	void SetValue(int val) { this->value = val; };
 	int GetValue() const { return value; };
 
+	void SetDurability(int du) { this->durability = du; };
+	int GetDurability() const { return durability; };
+
 	void SetCombineUp(Card* card) { this->combineUp = card; };
 	Card* GetCombineUp() const { return combineUp; };
 	void SetCombineDown(Card* card) { this->combineDown = card; };
@@ -79,7 +94,10 @@ public:
 	void MoveInArea();
 
 	void CombineCard();
-	void CombineAction();
+	void SetCombineList();
 	void CheckCombine();
+	void CombineAction(float dt);
+
+	void GetIsCombine();
 };
 
