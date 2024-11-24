@@ -15,6 +15,7 @@ struct DataVillagers
 	std::string cardColor;
 	int value;
 	std::string useCoinIcon;
+	int durability;
 };
 
 

@@ -9,7 +9,33 @@
             "Villager" : 1
         },
         {
-            "time" : 10
+            "time" : 5
+        }
+    ],
+    "Berry Bush" : 
+    [
+        {
+            "count" : 2 
+        },
+        {
+            "Soil" : 1,
+            "Berry" : 1
+        },
+        {
+            "time" : 5
+        }
+    ],
+    "Apple" : 
+    [
+        {
+            "count" : 2 
+        },
+        {
+            "Tree" : 1,
+            "Villager" : 1
+        },
+        {
+            "time" : 5
         }
     ],
     "Stone" : 
@@ -22,20 +48,49 @@
             "Villager" : 1
         },
         {
+            "time" : 5
+        }
+    ],
+    "Shed" : 
+    [
+        {
+            "count" : 4
+        },
+        {
+            "Stone" : 1,
+            "Wood" : 1,
+            "Stick" : 1,
+            "Villager" : 1
+        },
+        {
             "time" : 10
         }
     ],
-    "Coin Chest" : 
+    "House" : 
+    [
+        {
+            "count" : 3
+        },
+        {
+            "Stone" : 1,
+            "Wood" : 2,
+            "Villager" : 1
+        },
+        {
+            "time" : 10
+        }
+    ],
+    "Stick" : 
     [
         {
             "count" : 2 
         },
         {
-            "Coin" : 1,
-            "Wood" : 1
+            "Wood" : 1,
+            "Villager" : 1
         },
         {
-            "time" : 10
+            "time" : 5
         }
     ]
 

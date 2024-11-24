@@ -1,13 +1,17 @@
-﻿ID,HEALTH,ATTACKSPEED,HITCHANCE,DAMAGE,FOODEAT,FOODGET,ICONTEX,NAME,CARDCOLOR,VALUE,USECOINICON
-Villager,15,2.9,0.68,2,2,-1,graphics/icon/Villager.png,주민,graphics/card/yellowCard.png,-1,NONE
-Berry Bush,-1,-1,-1,-1,-1,-1,graphics/icon/Bush.png,딸기나무,graphics/card/blackCard.png,1,NONE
-Rock,-1,-1,-1,-1,-1,-1,graphics/icon/Rock.png,바위,graphics/card/blackCard.png,2,NONE
-Wood,-1,-1,-1,-1,-1,-1,graphics/icon/Wood.png,목재,graphics/card/silverCard.png,0,NONE
-Coin,-1,-1,-1,-1,-1,-1,graphics/icon/Coin.png,코인,graphics/card/yellowCard.png,-1,NONE
-Stone,-1,-1,-1,-1,-1,-1,graphics/icon/Stone.png,석재,graphics/card/blackCard.png,1,NONE
-Soil,-1,-1,-1,-1,-1,-1,graphics/icon/Soil.png,토양,graphics/card/blackCard.png,3,NONE
-Tree,-1,-1,-1,-1,-1,-1,graphics/icon/Tree.png,나무,graphics/card/blackCard.png,0,NONE
-Key,-1,-1,-1,-1,-1,-1,graphics/icon/Key.png,열쇠,graphics/card/yellowCard.png,3,NONE
-Rabbit,5,1.5,0.6,2,-1,-1,graphics/icon/Rabbit.png,토끼,graphics/card/yellowCard.png,-1,NONE
-Rat,5,1.5,0.6,2,-1,-1,graphics/icon/Small-Rat.png,쥐,graphics/card/redCard.png,-1,NONE
-Berry,-1,-1,-1,-1,-1,1,graphics/icon/Berry.png,딸기,graphics/card/deepOrangeCard.png,1,graphics/icon/Coinicon.png
+﻿ID,HEALTH,ATTACKSPEED,HITCHANCE,DAMAGE,FOODEAT,FOODGET,ICONTEX,NAME,CARDCOLOR,VALUE,USECOINICON,Durability
+Villager,15,2.9,0.68,2,2,-1,graphics/icon/Villager.png,주민,graphics/card/yellowCard.png,-1,NONE,-1
+Berry Bush,-1,-1,-1,-1,-1,-1,graphics/icon/Bush.png,딸기나무,graphics/card/blackCard.png,1,NONE,3
+Rock,-1,-1,-1,-1,-1,-1,graphics/icon/Rock.png,바위,graphics/card/blackCard.png,2,NONE,3
+Wood,-1,-1,-1,-1,-1,-1,graphics/icon/Wood.png,목재,graphics/card/silverCard.png,0,NONE,1
+Coin,-1,-1,-1,-1,-1,-1,graphics/icon/Coin.png,코인,graphics/card/goldCard.png,-1,NONE,1
+Stone,-1,-1,-1,-1,-1,-1,graphics/icon/Stone.png,석재,graphics/card/blackCard.png,1,NONE,1
+Soil,-1,-1,-1,-1,-1,-1,graphics/icon/Soil.png,토양,graphics/card/blackCard.png,3,NONE,2
+Tree,-1,-1,-1,-1,-1,-1,graphics/icon/Tree.png,나무,graphics/card/blackCard.png,0,NONE,3
+Key,-1,-1,-1,-1,-1,-1,graphics/icon/Key.png,열쇠,graphics/card/goldCard.png,3,NONE,1
+Rabbit,5,1.5,0.6,2,-1,-1,graphics/icon/Rabbit.png,토끼,graphics/card/yellowCard.png,-1,NONE,-1
+Rat,5,1.5,0.6,2,-1,-1,graphics/icon/Small-Rat.png,쥐,graphics/card/redCard.png,-1,NONE,-1
+Berry,-1,-1,-1,-1,-1,1,graphics/icon/Berry.png,딸기,graphics/card/deepOrangeCard.png,1,graphics/icon/Coinicon.png,1
+House,-1,-1,-1,-1,-1,-1,graphics/icon/House.png,집,graphics/card/pinkCard.png,3,graphics/icon/Coinicon.png,-1
+Shed,-1,-1,-1,-1,-1,-1,graphics/icon/Shed.png,창고,graphics/card/pinkCard.png,3,graphics/icon/Coinicon.png,-1
+Stick,-1,-1,-1,-1,-1,-1,graphics/icon/Stick.png,나뭇가지,graphics/card/silverCard.png,2,NONE,1
+Apple,-1,-1,-1,-1,-1,2,graphics/icon/Apple.png,딸기,graphics/card/deepOrangeCard.png,1,graphics/icon/Coinicon.png,2

@@ -4,6 +4,7 @@
 #include "Card.h"
 #include "Deck.h"
 #include "CombineTable.h"
+#include "UiSys.h"
 
 GameScene::GameScene() : Scene(SceneIds::Game)
 {
@@ -13,6 +14,7 @@ GameScene::GameScene() : Scene(SceneIds::Game)
 void GameScene::Init()
 {
 	AddGo(new PlayArea());
+	ui = AddGo(new UiSys());
 	//deck = AddGo(new Deck());
 	Scene::Init();
 }
@@ -32,7 +34,7 @@ void GameScene::Enter()
 	uiView.setSize(FRAMEWORK.GetWindowSizeF());
 
 	CreateDeck(0);
-	
+	SetStatus(Status::Play);
 	Scene::Enter();
 }
 
@@ -57,24 +59,39 @@ void GameScene::Exit()
 
 void GameScene::Update(float dt)
 {
+	
+	if (pause)
+	{
+		ui->Update(dt);
+		ui->FixedUpdate(dt);
+		return;
+	}
+		
 	Scene::Update(dt);
-	//for (auto card : cards)
-	//{
-	//	if (card->GetDurability() == 0)
-	//		ReturnCard(card);
-	//}
+	int count = 0;
+	for (auto card :cards)
+	{
+		if (card->GetId() == "Villager")
+			count++;
+	}
 
+	if (count < 1)
+		SetStatus(Status::GameOver);
+	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+	{
+		pause ? SetStatus(Status::Play) : SetStatus(Status::Pause);
+	}  
 	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
 	{
-		CreateDeck(0);
-		
+		GiveFood();
 	}
 	
 }
 
 void GameScene::FixedUpdate(float dt)
 {
-
+	if (pause)
+		return;
 	topGoWorld = nullptr;
 	topGoUi = nullptr;
 
@@ -118,12 +135,20 @@ void GameScene::FixedUpdate(float dt)
 	{
 		selectDeck = deck->GetIsSelect();
 	}
-	CloseUpDown(dt);
+	CloseUpDown(FRAMEWORK.GetRealDeltaTime());
 	MoveScreen(dt);
-	/*for (auto& card : cards)
+
+	std::list<Card*> removeList;
+	for (auto card : cards)
 	{
-		Collision(card, deck, dt);
-	}*/
+		if (card->GetDurability() == 0)
+			removeList.push_back(card); 
+	}
+
+	for (auto card : removeList)
+	{
+		ReturnCard(card);
+	}
 
 	Scene::FixedUpdate(dt);
 }
@@ -173,7 +198,6 @@ void GameScene::CloseUpDown(float dt)
 			viewPos.x = viewArea.left;
 		if (viewPos.y < 0)
 			viewPos.y = viewArea.top;
-		std::cout << viewPos.x << " " << viewPos.y << std::endl;
 		worldView.setSize(viewPos);
 	}
 	else if (temp < 0)
@@ -196,6 +220,11 @@ void GameScene::MoveScreen(float dt)
 		worldView.setCenter(worldView.getCenter().x + mPos.x, worldView.getCenter().y + mPos.y);
 	}
 		
+}
+
+void GameScene::ZoomCard(Card* card)
+{
+	worldView.setCenter(card->GetPosition());
 }
 
 void GameScene::Collision(Card* card, Deck* deck, float dt)
@@ -257,9 +286,11 @@ void GameScene::ReturnCard(Card* card)
 	card->SetCombineUp(nullptr);
 	card->SetCombineDown(nullptr);
 
+
 	RemoveGo(card);
 	cardPool.Return(card);
 	cards.remove(card);
+	CheckCount();
 	this->card = nullptr;
 }
 
@@ -273,7 +304,7 @@ Card* GameScene::CreateCard(const std::string& id)
 	card->sortingOrder = MaxCardOrder() + 1;
 	card->CardSetting(id);
 	cards.push_back(card);
-	std::cout << "card" << card->sortingOrder << std::endl;
+	CheckCount();
 	return AddGo(card);
 }
 
@@ -339,4 +370,105 @@ void GameScene::SetCombineList()
 			
 		}
 	}
+}
+
+void GameScene::CheckCount()
+{
+	cardCnt = 0;
+	maxCardCnt = 2;
+	coinCnt = 0;
+	needFood = 0;
+	haveFood = 0;
+	for (auto& card : cards)
+	{
+		if (card->GetId() != "Coin")
+			cardCnt++;
+		if (card->GetId() == "Shed")
+		{
+			maxCardCnt += 4;
+		}
+		if (card->GetId() == "Coin")
+			coinCnt++;
+		if (card->GetFoodEat() > 0)
+			needFood += card->GetFoodEat();
+		if (card->GetFoodGet() > 0)
+			haveFood += card->GetFoodGet();
+	}
+	ui->SetFood(haveFood, needFood);
+	ui->SetCoin(coinCnt);
+	ui->SetCardCnt(cardCnt, maxCardCnt);
+}
+
+void GameScene::SetStatus(Status st)
+{
+	status = st;
+	switch (status)
+	{
+	case GameScene::Status::Play:
+		pause = false;
+		break;
+	case GameScene::Status::Pause:
+		pause = true;
+		break;
+	case GameScene::Status::NextTurn:
+		break;
+	case GameScene::Status::GameOver:
+		break;
+	default:
+		break;
+	}
+}
+
+void GameScene::GiveFood()
+{
+	std::vector<Card*> villagers;
+	std::list<Card*> foods;
+	std::list<Card*> deleteFoods;
+	for (auto card : cards)
+	{
+		if (card->GetId() == "Villager")
+			villagers.push_back(card);
+		if (card->GetFoodGet() > 0)
+			foods.push_back(card);
+	}
+
+	for (auto food : foods)
+	{
+		for (int i = 0; i < villagers.size(); i++)
+		{
+			if (villagers[i]->GetFoodEat() > 0)
+			{
+				ZoomCard(villagers[i]);
+				food->EatFood(villagers[i]);
+				int temp = (int)Utils::Clamp(villagers[i]->GetFoodEat(), 0, food->GetFoodGet());
+				food->SetFoodGet(food->GetFoodGet() - temp);
+				villagers[i]->SetFoodEat(villagers[i]->GetFoodEat() - temp);
+			}
+			if (food->GetFoodGet() < 1)
+			{
+				deleteFoods.push_back(food);
+				break;
+			}
+				
+		}
+	}
+
+	for (auto deleteFood : deleteFoods)
+	{
+		ReturnCard(deleteFood);
+	}
+
+	for (auto villager : villagers)
+	{
+		if (villager->GetFoodEat() > 0)
+			villager->IsDead();
+		else
+			villager->SetFoodEat(2);
+	}
+
+	for (auto card : cards)
+	{
+		card->SetCombineList();
+	}
+	CheckCount();
 }

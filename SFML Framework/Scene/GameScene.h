@@ -4,9 +4,19 @@
 
 class Card;
 class Deck;
+class UiSys;
 
 class GameScene : public Scene
 {
+public:
+	enum class Status
+	{
+		Play,
+		Pause,
+		NextTurn,
+		GameOver,
+	};
+
 protected:
 	sf::Sprite background;
 
@@ -25,8 +35,15 @@ protected:
 	std::list<Card*> cards;
 	ObjectPool<Card> cardPool;
 
-	
+	UiSys* ui;
+	int coinCnt;
+	int needFood;
+	int haveFood;
+	int maxCardCnt;
+	int cardCnt;
 
+	bool pause;
+	Status status;
 
 public:
 
@@ -53,6 +70,8 @@ public:
 
 	void CloseUpDown(float dt);
 	void MoveScreen(float dt);
+	void ZoomCard(Card* card);
+
 
 	//void Collision(Card* card1, Card* card2);
 	void Collision(Card* card, Deck* deck, float dt);
@@ -66,4 +85,10 @@ public:
 	int MaxCardOrder();
 	
 	void SetCombineList();
+	
+	void CheckCount();
+
+	void SetStatus(Status st);
+
+	void GiveFood();
 };

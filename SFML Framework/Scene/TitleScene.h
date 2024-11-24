@@ -10,7 +10,7 @@ protected:
 	sf::Sprite background; 
 
 	TileMap* menu;
-	UiSys* temp;
+	
 	sf::Sprite menuLine;
 	std::vector<sf::Text> menuStr;
 

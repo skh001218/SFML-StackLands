@@ -26,7 +26,7 @@ void Card::SetPosition(const sf::Vector2f& pos)
 		body.getGlobalBounds().top + body.getGlobalBounds().height - 23.f);
 	foodSprite.setPosition(body.getGlobalBounds().left + body.getGlobalBounds().width - 5.f,
 		body.getGlobalBounds().top + body.getGlobalBounds().height - 5.f);
-	timeBar.SetPosition({ topCardPos.x + GetGlobalBounds().width * 0.5f, topCardPos.y - 3.f });
+	//timeBar.SetPosition({ topCardPos.x + GetGlobalBounds().width * 0.5f, topCardPos.y - 3.f });
 }
 
 void Card::SetRotation(float angle)
@@ -160,6 +160,7 @@ void Card::SetSelectCard()
 void Card::CardSetting(std::string id)
 {
 	this->id = id;
+	
 	body.setTexture(TEXTURE_MGR.Get(VILLAGER_TABLE->Get(this->id).cardColor));
 	SetOrigin(Origins::MC);
 	body.setScale(0.22f, 0.22f);
@@ -225,6 +226,7 @@ void Card::CardSetting(std::string id)
 	hitChance = VILLAGER_TABLE->Get(this->id).hitChance;
 	damage = VILLAGER_TABLE->Get(this->id).damage;
 	foodEat = VILLAGER_TABLE->Get(this->id).foodEat;
+	durability = VILLAGER_TABLE->Get(this->id).durability;
 	
 	SetPosition(FRAMEWORK.GetWindowCenterPos());
 }
@@ -296,10 +298,9 @@ void Card::CombineCard()
 			{
 				card->combineDown = this;
 				this->combineUp = card;
-				SetPosition({ card->GetPosition().x , card->GetPosition().y + 23.f });
 				SetCombineList();
-				
-				
+				SetPosition({ card->GetPosition().x , card->GetPosition().y + 23.f });
+				break;
 			}
 			else
 				continue;
@@ -357,31 +358,42 @@ void Card::SetCombineList()
 
 void Card::CheckCombine()
 {
+	Card* tempUp = combineUp;
+
+	while (tempUp == nullptr)
+	{
+		return;
+	}
+	
 	std::unordered_map<std::string, DataCombine> chek = COMBINE_TABLE->Get();
 	for (auto iter = chek.begin(); iter != chek.end(); iter++) 
 	{
+		bool combineOk = false;
 		for (int i = 0; i < iter->second.count; i++)
 		{
+			StartCombine = false;
 			auto find = table.find(iter->second.kinds[i].first);
 			if (find == table.end())
 			{
 				StartCombine = false;
-				return;
+				break;
 			}
 			if (iter->second.kinds[i].second > find->second)
 			{
 				StartCombine = false;
-				return;
+				break;
 			}
-			
+			StartCombine = true;
 		}
-		StartCombine = true;
-		resultId = iter->first;
-		combineTime = iter->second.time;
-		timeBar.SetType(Timer::Type::CombineTimer);
-		timeBar.SetMaxTime(combineTime);
-		timeBar.SetPosition({ topCardPos.x + GetGlobalBounds().width * 0.5f, topCardPos.y - 3.f });
-		break;
+		if (StartCombine)
+		{
+			resultId = iter->first;
+			combineTime = iter->second.time;
+			timeBar.SetType(Timer::Type::CombineTimer);
+			timeBar.SetMaxTime(combineTime);
+			timeBar.SetPosition({ topCardPos.x + GetGlobalBounds().width * 0.5f, topCardPos.y - 3.f });
+			break;
+		}
 	}
 	
 }
@@ -401,12 +413,14 @@ void Card::CombineAction(float dt)
 		Card* tempDown = combineDown;
 		while (tempUp != nullptr)
 		{
-			if (tempUp->durability > 0)
+			if (table.find(tempUp->id) != table.end() && tempUp->durability > 0)
 			{
 				tempUp->durability--;
 			}
 			tempUp = tempUp->combineUp;
 		}
+		if (this->durability > 0)
+			this->durability--;
 		while (tempDown != nullptr)
 		{
 			if (tempDown->durability > 0)
@@ -449,4 +463,61 @@ void Card::GetIsCombine()
 		else
 			tempDown = tempDown->combineDown;
 	}
+}
+
+void Card::IsDead()
+{
+	this->id = "Corpse";
+	body.setTexture(TEXTURE_MGR.Get("graphics/card/Corpse.png"));
+	SetOrigin(Origins::MC);
+	body.setScale(0.22f, 0.22f);
+
+	cardName.setFont(font);
+	cardName.setString(L"½ÃÃ¼");
+	cardName.setCharacterSize(150);
+	cardName.setScale(0.1f, 0.1f);
+	cardName.setFillColor(sf::Color::Black);
+	cardName.setStyle(sf::Text::Bold);
+
+	value = -1;
+	isCombine = false;
+	StartCombine = false;
+
+	isDie = true;
+	health = 0;
+	attackSpeed = 0;
+	hitChance = 0;
+	damage = 0;
+	foodEat = 0;
+	foodGet = -1;
+	value = -1;
+	durability = 3;
+
+	resultId = "";
+	combineTime = 0;
+	timer = 0;
+
+	icon = sf::Sprite();
+
+	hpSprite = sf::Sprite();
+	hpStr = sf::Text();
+	coin = sf::Sprite();;
+	coinStr = sf::Text();;
+
+	foodSprite = sf::Sprite();;
+	foodStr = sf::Text();;
+}
+
+void Card::EatFood(Card* card)
+{
+	while (position != card->GetPosition())
+	{
+		sf::Vector2f direction = Utils::GetNormal(card->GetPosition() - position);
+		position.x = Utils::Clamp(position.x + direction.x * FRAMEWORK.GetRealDeltaTime(), 
+			card->GetPosition().x, card->GetPosition().x);
+		position.y = Utils::Clamp(position.y + direction.x * FRAMEWORK.GetRealDeltaTime(),
+			card->GetPosition().y, card->GetPosition().y);
+		SetPosition(position);
+	}
+	
 }

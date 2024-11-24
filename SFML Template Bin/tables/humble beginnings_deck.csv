@@ -2,12 +2,9 @@ COUNT,TEXTURE,,,,,,,,
 3,graphics/deck/humbleBeginnnings.png,,,,,,,,
 ,,,,,,,,,
 ID,PERCENT,ID,PERCENT,ID,PERCENT,ID,PERCENT,ID,PERCENT
-Stone,0.19,Stone,0.19,Stone,0.19,None,-1,None,-1
-Wood,0.19,Wood,0.19,Wood,0.19,None,-1,None,-1
-Berry Bush,0.13,Berry Bush,0.13,Berry Bush,0.13,None,-1,None,-1
-Rock,0.13,Rock,0.13,Rock,0.13,None,-1,None,-1
-Soil,0.13,Soil,0.13,Soil,0.13,None,-1,None,-1
-Tree,0.13,Tree,0.13,Tree,0.13,None,-1,None,-1
-Key,0.03,Key,0.03,Key,0.03,None,-1,None,-1
-Rabbit,0.03,Rabbit,0.03,Rabbit,0.03,None,-1,None,-1
-Rat,0.03,Rat,0.03,Rat,0.03,None,-1,None,-1
+Stone,0.20,Stone,0.20,Stone,0.20,None,-1,0.20,-1
+Wood,0.20,Wood,0.20,Wood,0.20,None,-1,0.20,-1
+Berry Bush,0.20,Berry Bush,0.20,Berry Bush,0.20,None,-1,0.20,-1
+Rock,0.14,Rock,0.14,Rock,0.14,None,-1,0.14,-1
+Soil,0.14,Soil,0.14,Soil,0.14,None,-1,0.14,-1
+Tree,0.14,Tree,0.14,Tree,0.14,None,-1,0.14,-1

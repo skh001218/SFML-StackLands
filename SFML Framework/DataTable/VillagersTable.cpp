@@ -32,6 +32,7 @@ bool VillagersTable::Load()
 		table[id].cardColor = row[9];
 		table[id].value = stoi(row[10]);
 		table[id].useCoinIcon = row[11];
+		table[id].durability = stoi(row[12]);
 	}
 
 	return true;

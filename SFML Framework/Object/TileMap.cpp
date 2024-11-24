@@ -68,7 +68,7 @@ void TileMap::Init()
 	sortingLayer = SortingLayers::Background;
 	sortingOrder = -1;
 
-	Set({ 6, 6 }, { 84.f, 84.f });
+	Set({ 8, 8 }, { 66.f, 66.f });
 }
 
 void TileMap::Release()

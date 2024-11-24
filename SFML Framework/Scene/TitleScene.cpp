@@ -10,7 +10,6 @@ TitleScene::TitleScene() : Scene(SceneIds::Title)
 void TitleScene::Init()
 {
 	menu = AddGo(new TileMap());
-	temp = AddGo(new UiSys());
 	Scene::Init();
 	
 }
@@ -29,11 +28,18 @@ void TitleScene::Enter()
 	menu->SetPosition({ 0, FRAMEWORK.GetWindowSizeF().y });
 	background.setTexture(TEXTURE_MGR.Get("graphics/playArea/backGround.png"));
 
+	next.clear();
+	isChange = false;
+	menuStr.clear();
+
+	backStr.clear();
+	lines.clear();
+
 	SetMenu();
 	SetBackMenuStr();
 
-	next.clear();
-	isChange = false;
+	
+	
 }
 
 void TitleScene::Exit()

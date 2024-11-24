@@ -185,6 +185,7 @@ void Deck::ShowCard()
 	scene->AddGo(card);
 	deckCount--;
 	count.setString(std::to_string(deckCount));
+	scene->CheckCount();
 }
 
 void Deck::Move()

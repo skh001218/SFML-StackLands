@@ -24,6 +24,7 @@ protected:
 	bool isCombine = false;
 	bool StartCombine = false;
 
+	bool isDie;
 	int health;
 	float attackSpeed;
 	float hitChance;
@@ -87,6 +88,17 @@ public:
 	void SetCombineDown(Card* card) { this->combineDown = card; };
 	Card* GetCombineDown() const { return combineDown; };
 
+	void SetFoodEat(int fe) { this->foodEat = fe; };
+	int GetFoodEat() const { return foodEat; };
+
+	void SetFoodGet(int fg) 
+	{ 
+		this->foodGet = fg; 
+		foodStr.setString(std::to_wstring(foodGet));
+	
+	};
+	int GetFoodGet() const { return foodGet; };
+
 	sf::Sprite GetCardBody() const { return body; }
 
 	void CardSetting(std::string id);
@@ -99,5 +111,8 @@ public:
 	void CombineAction(float dt);
 
 	void GetIsCombine();
+
+	void IsDead();
+	void EatFood(Card* card);
 };
 
